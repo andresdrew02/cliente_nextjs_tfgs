@@ -1,5 +1,9 @@
-export const API_URL = "http://127.0.0.1:1337/api";
+import { UserContext, UserContextInterface } from "@/context/userContext";
+import Usuario from "@/interfaces/Usuario";
+import { getLocalCookie } from "@/utils/cookies";
+import { useContext } from 'react'
 
+export const API_URL = "http://127.0.0.1:1337/api";
 export async function postContactForm(body: {}) {
   const response = await fetch(`${API_URL}/contactos`, {
     method: "POST",
@@ -119,16 +123,56 @@ export async function changeRecienCreado(jwt: string) {
   return response.ok;
 }
 
-export async function updateProfilePicture(files: any, jwt: string) {
+export async function updateProfilePicture(
+  event: any,
+  jwt: string,
+  usuario: Usuario
+) {
   const formData = new FormData();
-  formData.append("files", files[0]);
+  formData.append("files", event[0]);
+  formData.append(
+    "refId",
+    usuario.data?.id === undefined ? "" : usuario.data?.id.toString()
+  );
+  formData.append("ref", "plugin::users-permissions.user");
+  formData.append("field", "avatar");
 
-  const response = await (
-    await fetch(`${API_URL}/upload`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${jwt}`, },
-      body: JSON.stringify(formData),
-    })
-  ).json();
-  console.log(response);
+  const response = await fetch(`${API_URL}/upload`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${jwt}` },
+    body: formData,
+  });
+  return response.ok;
+}
+
+export async function updateUserInfo( cb: Function ) {
+  const cookie = getLocalCookie()
+  if (cookie === undefined || cookie === null) {
+    return
+  }
+  try {
+    const user_data = await getUserInfo(cookie);
+    const user: Usuario = {
+      data: {
+        email: user_data.email,
+        fecha_nacimiento: user_data.fecha_nacimiento,
+        id: user_data.id,
+        nombre_completo: user_data.nombre_completo,
+        username: user_data.username,
+        avatar:
+          user_data.avatar === undefined || user_data.avatar === null
+            ? null
+            : user_data.avatar.url,
+        recien_creada:
+          user_data.recien_creada === undefined ||
+          user_data.recien_creada === null
+            ? null
+            : user_data.recien_creada,
+      },
+    };
+    cb(user)
+    return user
+  } catch (err) {
+    return err
+  }
 }
