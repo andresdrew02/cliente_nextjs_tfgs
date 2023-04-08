@@ -71,9 +71,6 @@ export default function UserNavigation({ usuario }: { usuario: Usuario }) {
             </a>
           </li>
           <li>
-            <a>Opciones</a>
-          </li>
-          <li>
             <label htmlFor="logout-modal">Cerrar sesión</label>
           </li>
         </ul>

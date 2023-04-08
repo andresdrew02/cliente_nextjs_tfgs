@@ -90,10 +90,10 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
         </ul>
       </div>
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent className="">
-          <ModalHeader className="bg-base-200">Formulario de soporte</ModalHeader>
+        <ModalContent>
+          <ModalHeader className="bg-base-300" roundedTop='2xl'>Formulario de soporte</ModalHeader>
           <ModalCloseButton />
-          <ModalBody className="bg-base-200">
+          <ModalBody className="bg-base-300" roundedBottom='2xl'>
             <ContactForm/>
           </ModalBody>
         </ModalContent>
