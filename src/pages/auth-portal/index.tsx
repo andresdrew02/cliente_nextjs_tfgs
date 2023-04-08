@@ -1,6 +1,6 @@
 import LoginForm from "@/components/LoginForm";
 import Image from "next/image";
-import logo from "../img/logo.png";
+import logo from "../../img/logo.png";
 import { HiArrowUturnLeft } from "react-icons/hi2";
 import { useRouter } from "next/router";
 import { Tab, TabList, Tabs } from "@chakra-ui/react";

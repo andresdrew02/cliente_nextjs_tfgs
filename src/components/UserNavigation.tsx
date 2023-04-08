@@ -1,14 +1,12 @@
 import Usuario from "@/interfaces/Usuario";
-import { removeLocalCookie } from "@/utils/cookies";
 import { useRef } from 'react'
 import { useRouter } from "next/router";
-//http://127.0.0.1:1337/uploads/default_avatar_94abc249c2.jpg
+
 export default function UserNavigation({ usuario }: { usuario: Usuario }) {
   const router = useRouter();
   const closeRef = useRef<HTMLLabelElement>(null)
   const logoutHandler = () => {
-    removeLocalCookie()
-    router.push('/')
+    router.push('/auth-portal/logout')
   }
   const cancelHandler = () => {
     closeRef.current?.click()

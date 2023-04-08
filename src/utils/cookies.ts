@@ -13,7 +13,9 @@ export function getLocalCookie(){
 }
 
 export function removeLocalCookie(){
-    destroyCookie(null,'jwt')
+    destroyCookie(null,"jwt",{
+        path:'/'
+    })
 }
 
 export function logout(){

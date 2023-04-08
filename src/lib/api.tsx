@@ -1,7 +1,5 @@
-import { UserContext, UserContextInterface } from "@/context/userContext";
 import Usuario from "@/interfaces/Usuario";
 import { getLocalCookie } from "@/utils/cookies";
-import { useContext } from 'react'
 
 export const API_URL = "http://127.0.0.1:1337/api";
 export async function postContactForm(body: {}) {
@@ -175,4 +173,40 @@ export async function updateUserInfo( cb: Function ) {
   } catch (err) {
     return err
   }
+}
+
+export async function resetUserPassword(formData: FormData){
+  const body = Object.fromEntries(formData.entries());
+  try{
+    const response = await(await fetch(`${API_URL}/auth/forgot-password`,{
+      method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify(body)
+    })).json()
+    if (response.ok !== undefined && response.ok === true){
+      return true
+    }
+    return false
+  }
+  catch(err){
+    return false
+  }
+}
+
+export async function postResetPassword(formData: FormData, code: string){
+  /**code: 'privateCode', // code contained in the reset link of step 3.
+    password: 'userNewPassword',
+    passwordConfirmation: 'userNewPassword', */
+    formData.append("code",code)
+    const body = Object.fromEntries(formData.entries())
+    const response = await(await fetch(`${API_URL}/auth/reset-password/`,{
+      method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify(body)
+    })).json()
+    return response
 }

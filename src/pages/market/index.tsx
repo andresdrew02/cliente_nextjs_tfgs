@@ -6,7 +6,7 @@ import Card from "@/components/Card";
 import { Spinner } from "@chakra-ui/react";
 import Footer from "@/components/Footer";
 import { evaluateOrder } from "@/utils/ordering";
-import UserProvider, { UserContext } from "@/context/userContext";
+import  { UserContext } from "@/context/userContext";
 import getServerSideProps from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
 import { useRouter } from 'next/router'
