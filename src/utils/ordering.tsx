@@ -1,5 +1,4 @@
 export function orderByNameAsc(ofertas : Oferta[]){
-    //attributes.nombre
     ofertas.sort((a, b) => a.attributes.nombre.toUpperCase().localeCompare(b.attributes.nombre.toUpperCase()))
     return ofertas
 }

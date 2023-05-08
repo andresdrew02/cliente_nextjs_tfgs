@@ -1,40 +1,33 @@
-import Usuario from "@/interfaces/Usuario";
-import { API_URL, getUserInfo } from "./api";
-import nookies from "nookies";
+import { withSessionSsr } from './config/withSession'
+import { API_URL } from './api'
 
-export default async function getServerSideProps(ctx: any) {
-  const cookies = nookies.get(ctx);
-  if (cookies.jwt === undefined || cookies.jwt === null){
-    return{
+export const getServerSideProps = withSessionSsr(
+  async ({req,res}:{req:any,res:any}) => {
+    const user = req.session.user
+    if (user === undefined || user === null || user.user_data === undefined || user.user_data === null){
+      return{
         props:{
-            user: null
+          user:null,
+          jwt:null
         }
-    }
-  }
-  try{
-    const user_data = await getUserInfo(cookies.jwt)
-    const user: Usuario = {
-    data: {
-        email: user_data.email,
-        fecha_nacimiento: user_data.fecha_nacimiento,
-        id: user_data.id,
-        nombre_completo: user_data.nombre_completo,
-        username: user_data.username,
-        avatar:user_data.avatar === undefined || user_data.avatar === null ? null : user_data.avatar.url,
-        recien_creada: user_data.recien_creada === undefined || user_data.recien_creada === null ? null : user_data.recien_creada
-    }
-  }
-  return {
-    props: {
-      user: user,
-    },
-  };
-  }
-  catch(err){
+      }
+      };
+
     return{
-        props:{
-            user: null
-        }
+      props:{
+        user: {
+          data: {
+            email: user.user_data.email,
+            fecha_nacimiento: user.user_data.fecha_nacimiento,
+            id: user.user_data.id,
+            nombre_completo: user.user_data.nombre_completo,
+            username: user.user_data.username,
+            avatar:user.user_data.avatar === undefined || user.user_data.avatar === null ? null : user.user_data.avatar,
+            recien_creada: user.user_data.recien_creada === undefined || user.user_data.recien_creada === null ? null : user.user_data.recien_creada
+          }
+        },
+        jwt: user.jwt
+      }
     }
   }
-}
+)

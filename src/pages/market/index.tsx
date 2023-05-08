@@ -1,29 +1,27 @@
 import Navbar from "@/components/Navbar";
 import Searchbar from "@/components/Searchbar";
 import { changeRecienCreado, getProductsByName } from "../../lib/api";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "@/components/Card";
 import { Spinner } from "@chakra-ui/react";
 import Footer from "@/components/Footer";
 import { evaluateOrder } from "@/utils/ordering";
-import  { UserContext } from "@/context/userContext";
-import getServerSideProps from "@/lib/serverProps";
+import { getServerSideProps } from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
 import { useRouter } from 'next/router'
-import { getLocalCookie } from "@/utils/cookies";
 
-export default function index({ user }: { user: Usuario | null }) {
+export default function index({ user, jwt }: { user: Usuario | null, jwt: string }) {
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
   const [categorias, setCategorias] = useState<string[]>([]);
   const [maxPrecio, setMaxPrecio] = useState<number>(100000);
   const [loading, setLoading] = useState<boolean>(false);
-  const { usuario, setUsuario } = useContext(UserContext);
   const [avatar, setAvatar] = useState<boolean>(false);
   const router = useRouter()
 
   const laterAvatarHandler = async () => {
     setAvatar(false)
-    if (!await changeRecienCreado(getLocalCookie())){
+    router.push('/api/update')
+    if (!await changeRecienCreado(jwt)){
       router.push('/market')
     }
   }
@@ -38,11 +36,6 @@ export default function index({ user }: { user: Usuario | null }) {
       setCategorias(cats);
     };
     initFetching();
-
-    //si el usuario del props no es nulo y no tenemos un usuario seteado en el contexto, updateamos el usuario del contexto
-    if (user !== null && usuario.data === null) {
-      setUsuario(user);
-    }
 
     if (user !== null && user.data?.recien_creada === "true") {
       setAvatar(true)
@@ -91,12 +84,12 @@ export default function index({ user }: { user: Usuario | null }) {
             </div>
             <div className="modal-action flex justify-evenly items-center">
               <div className="cursor-pointer" onClick={laterAvatarHandler}>❌ Quizá mas adelante</div>
-              <button className="btn" onClick={() => router.push('/changeProfile')}>¡Claro!</button>
+              <button className="btn" onClick={() => router.push('/protected/profile/changeProfile')}>¡Claro!</button>
             </div>
           </div>
         </div>
 
-        <Navbar usuario={usuario} />
+        <Navbar usuario={user === null ? {data: null} : user} />
         <h1 className="text-center p-10 mt-10 text-4xl font-bold">
           ¡Empieza a buscar ahora!
         </h1>

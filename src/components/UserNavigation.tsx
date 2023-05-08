@@ -6,7 +6,7 @@ export default function UserNavigation({ usuario }: { usuario: Usuario }) {
   const router = useRouter();
   const closeRef = useRef<HTMLLabelElement>(null)
   const logoutHandler = () => {
-    router.push('/auth-portal/logout')
+    router.push('/api/logout')
   }
   const cancelHandler = () => {
     closeRef.current?.click()
@@ -65,7 +65,7 @@ export default function UserNavigation({ usuario }: { usuario: Usuario }) {
         >
           <li className="text-base font-bold">{usuario.data?.username}</li>
           <li>
-            <a className="justify-between">
+            <a className="justify-between" onClick={() => router.push('/protected/profile')}>
               Perfil
               <span className="badge">¡Nuevo!</span>
             </a>

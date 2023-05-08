@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-export default function ErrorPage({
+export default function errorPage({
   errorCode,
   errorMsg,
 }: {

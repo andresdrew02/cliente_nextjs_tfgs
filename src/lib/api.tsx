@@ -86,7 +86,7 @@ export async function getProductsByName(
   return arrOfertas;
 }
 
-export async function login(data: { username: string; pwd: string }) {
+/* export async function login(data: { username: string; pwd: string }) {
   const response = await fetch(`${API_URL}/auth/local/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -94,19 +94,15 @@ export async function login(data: { username: string; pwd: string }) {
   });
   const res = await response.json();
   return res;
-}
+} */
 
-export async function getUserInfo(jwt: string) {
-  const response = await (
-    await fetch(`${API_URL}/users/me?populate=avatar`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
-  ).json();
-  return response;
+export async function login(data: { username: string; pwd:string}){
+  const response = await fetch('/api/sessions', {
+    method: 'POST',
+    headers: {'Content-type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  return response.status
 }
 
 export async function changeRecienCreado(jwt: string) {
@@ -126,6 +122,7 @@ export async function updateProfilePicture(
   jwt: string,
   usuario: Usuario
 ) {
+
   const formData = new FormData();
   formData.append("files", event[0]);
   formData.append(
@@ -141,38 +138,6 @@ export async function updateProfilePicture(
     body: formData,
   });
   return response.ok;
-}
-
-export async function updateUserInfo( cb: Function ) {
-  const cookie = getLocalCookie()
-  if (cookie === undefined || cookie === null) {
-    return
-  }
-  try {
-    const user_data = await getUserInfo(cookie);
-    const user: Usuario = {
-      data: {
-        email: user_data.email,
-        fecha_nacimiento: user_data.fecha_nacimiento,
-        id: user_data.id,
-        nombre_completo: user_data.nombre_completo,
-        username: user_data.username,
-        avatar:
-          user_data.avatar === undefined || user_data.avatar === null
-            ? null
-            : user_data.avatar.url,
-        recien_creada:
-          user_data.recien_creada === undefined ||
-          user_data.recien_creada === null
-            ? null
-            : user_data.recien_creada,
-      },
-    };
-    cb(user)
-    return user
-  } catch (err) {
-    return err
-  }
 }
 
 export async function resetUserPassword(formData: FormData){
