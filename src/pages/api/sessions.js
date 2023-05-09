@@ -20,10 +20,11 @@ async function createSessionRoute(req, resp) {
       }
       
       let avatar = null
+      let direction = null
 
       if (res.user.avatar === undefined || res.user.avatar === null){
-        const avatarRes = await (
-          await fetch(`${API_URL}/users/me?populate=avatar`, {
+        const extraInfo = await (
+          await fetch(`${API_URL}/users/me?populate=avatar&populate=direccion`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -31,7 +32,8 @@ async function createSessionRoute(req, resp) {
             },
           })
         ).json();
-        avatar = avatarRes.avatar === undefined || avatarRes.avatar === null ? null : avatarRes.avatar.url
+        avatar = extraInfo.avatar === undefined || extraInfo.avatar === null ? null : extraInfo.avatar.url
+        direction = extraInfo.direccion
       }
       req.session.user = {
         jwt: res.jwt,
@@ -47,7 +49,8 @@ async function createSessionRoute(req, resp) {
           nombre_completo: res.user.nombre_completo,
           fecha_nacimiento: res.user.fecha_nacimiento,
           recien_creada: res.user.recien_creada,
-          avatar: avatar
+          avatar: avatar,
+          direccion: direction
         },
       };
       await req.session.save();

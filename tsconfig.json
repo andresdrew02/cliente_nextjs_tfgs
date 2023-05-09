@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/lib/serverProps.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/lib/serverProps.js", "src/components/RegisterForm.tsx", "src/components/ProfileForm.tsx"],
   "exclude": ["node_modules"]
 }

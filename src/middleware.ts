@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest) {
-    let cookie = req.cookies.get('jwt')?.value
-    console.log(cookie)
-    if (cookie === undefined || cookie === null){
-      const errorUrl = new URL('/error/errorPage?msg=No esta autorizado a realizar esta accion&code=401', req.url)
-      return NextResponse.redirect(errorUrl)
-    }
-
+export async function middleware(req: NextRequest, res: NextResponse) {
     return NextResponse.next()
   }
   

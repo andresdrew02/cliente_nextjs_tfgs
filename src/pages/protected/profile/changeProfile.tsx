@@ -1,13 +1,11 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { getServerSideProps } from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
 import {
-  changeRecienCreado,
   updateProfilePicture,
 } from "@/lib/api";
-import { getLocalCookie } from "@/utils/cookies";
 import Error from "@/components/Error";
 import Success from "@/components/Success";
 import { HiArrowUturnLeft } from "react-icons/hi2";

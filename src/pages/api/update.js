@@ -5,9 +5,10 @@ export default withSessionRoute(update);
 
 async function update(req, response) {
   const user = req.session.user;
+  const { redirect } = req.query
 
   const res = await (
-    await fetch(`${API_URL}/users/me?populate=avatar`, {
+    await fetch(`${API_URL}/users/me?populate=avatar&populate=direccion`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,6 +28,8 @@ async function update(req, response) {
     });
   }
 
+  const direction = res.direccion
+
   req.session.user = {
     jwt: user.jwt,
     user_data: {
@@ -43,9 +46,10 @@ async function update(req, response) {
       recien_creada: false,
       avatar:
         res.avatar === undefined || res.avatar === null ? null : res.avatar.url,
+      direccion: direction
     },
   };
   await req.session.save();
 
-  return response.redirect(307, "/market");
+  return response.redirect(307, redirect === undefined ? "/market" : redirect);
 }
