@@ -1,5 +1,5 @@
 import Usuario from '@/interfaces/Usuario'
-import { withSessionSsr } from './config/withSession'
+import { withSessionSsr } from './AuthSession/withSession'
 
 type DirectionProps = {
   calle: string,
@@ -51,7 +51,6 @@ export const getServerSideProps = withSessionSsr(
         direccion: user.user_data.direccion === undefined || user.user_data.direccion === null ? null : direction
       }
     }
-
 
     return {
       props: {

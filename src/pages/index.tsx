@@ -55,7 +55,7 @@ export default function Home() {
       </div>
       <div className="bg-primary flex mt-32">
         <Testimonial
-          testimonio="Me encantó la calidad de los productos de esta empresa. Compré una pieza de joyería artesanal y quedé impresionado por el detalle y la artesanía. Definitivamente volveré a comprar aquí."
+          testimonio="Me encantó la calidad de los productos de esta empresa. Compré una pieza de joyería artesanal y quedé impresionada por el detalle y la artesanía. Definitivamente volveré a comprar aquí."
           usuario={{
             nombre: "Maria Teresa",
             imagen:

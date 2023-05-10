@@ -1,4 +1,4 @@
-import { withSessionRoute } from '../../lib/config/withSession';
+import { withSessionRoute } from "../../lib/AuthSession/withSession";
 
 export default withSessionRoute(logout);
 

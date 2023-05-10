@@ -1,4 +1,4 @@
-import { withSessionRoute } from "../../lib/config/withSession";
+import { withSessionRoute } from "../../lib/AuthSession/withSession";
 import { API_URL } from "../../lib/api";
 
 export default withSessionRoute(changePassword);

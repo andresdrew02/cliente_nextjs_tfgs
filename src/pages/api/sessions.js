@@ -1,6 +1,5 @@
-import { withSessionRoute } from "../../lib/config/withSession";
+import { withSessionRoute } from "../../lib/AuthSession/withSession";
 import { API_URL } from "../../lib/api";
-import { NextResponse } from "next/server";
 
 export default withSessionRoute(createSessionRoute);
 
@@ -35,6 +34,7 @@ async function createSessionRoute(req, resp) {
         avatar = extraInfo.avatar === undefined || extraInfo.avatar === null ? null : extraInfo.avatar.url
         direction = extraInfo.direccion
       }
+
       req.session.user = {
         jwt: res.jwt,
         user_data: {

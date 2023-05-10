@@ -1,4 +1,4 @@
-import { withSessionRoute } from "../../lib/config/withSession";
+import { withSessionRoute } from "../../lib/AuthSession/withSession";
 import { API_URL } from "../../lib/api";
 
 export default withSessionRoute(logout);
@@ -21,7 +21,7 @@ async function logout(req, response) {
 
     //recogemos los datos del usuario para guardarlos en la sesión
     const res = await (
-      await fetch(`${API_URL}/users/me?populate=avatar`, {
+      await fetch(`${API_URL}/users/me?populate=avatar&populate=direccion`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -49,6 +49,7 @@ async function logout(req, response) {
           res.avatar === undefined || res.avatar === null
             ? null
             : res.avatar.url,
+        direccion: res.direccion
       },
     };
     await req.session.save();
