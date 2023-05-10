@@ -5,6 +5,7 @@ import Usuario from "@/interfaces/Usuario";
 import { useRouter } from "next/router";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import ProfileForm from "@/components/ProfileForm";
+import SecurityForms from "@/components/SecurityForms";
 
 export default function changeProfile({ user, jwt }: { user: Usuario, jwt: string }) {
   return (
@@ -25,7 +26,7 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt: strin
               <ProfileForm jwt={jwt} user={user}/>
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <SecurityForms user={user}/>
             </TabPanel>
             <TabPanel>
               <p>three!</p>

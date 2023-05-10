@@ -20,7 +20,7 @@ async function createSessionRoute(req, resp) {
         return resp.status(400).send("")
       }
     }
-    const response = await fetch(`${API_URL}/user/me/update`, {
+    const response = await fetch(`${API_URL}/user/me/updateMe`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${jwt}` },
       body: JSON.stringify(body),
