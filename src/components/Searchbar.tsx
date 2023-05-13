@@ -113,7 +113,7 @@ export default function Searchbar({
         />
         <Input
           type="text"
-          placeholder="Busqueda por nombre de la oferta o por nombre de la tienda..."
+          placeholder="Busqueda por nombre de la oferta o por nombre de la tienda, pulse Enter para buscar..."
           rounded="lg"
           ref={inputRef}
         />

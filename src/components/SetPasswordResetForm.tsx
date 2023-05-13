@@ -30,9 +30,8 @@ export default function SetPasswordResetForm({code}:{code: string | string[] | u
           setErrorMsg(`${res.error.name}: ${res.error.message}`)
         }else{
           setSuccess(true)
-          setLocalCookie(res.jwt)
           setTimeout(() => {
-            router.push('/market')
+            router.push('/auth-portal')
           },1500)
         }
         setLoading(false)

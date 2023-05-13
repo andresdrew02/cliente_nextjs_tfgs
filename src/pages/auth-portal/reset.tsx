@@ -16,7 +16,7 @@ export default function reset() {
 
     const checkToken = async () => {
       if (!code){
-        return router.push('/error/errorPage?code=400&msg"El token para reestablecer la contraseña no es válido o a expirado"')
+        return router.push('/error/errorPage?code=400&msg"El%20token%20para%20reestablecer%20la%20contraseña%20no%20es%20válido%20o%20a%20expirado"')
       }
 
       const res = await fetch(`${API_URL}/user/checkResetToken`,{
@@ -27,7 +27,7 @@ export default function reset() {
       })
 
       if (!res.ok){
-        return router.push('/error/errorPage?code=400&msg=El%20token%20para%20reestablecer%20la%20contraseña%20no%20es%20válido%20o%20a%20expirado')
+        return router.push('/error/errorPage?code=418&msg=El%20token%20para%20reestablecer%20la%20contraseña%20es%20un%20café%20y%20el%20servidor%20es%20una%20tetera')
       }
     }
 

@@ -1,7 +1,9 @@
 interface Tienda{
     id: number,
-    attributes: {
-        nombre: string,
-        descripcion:string
+    data:{
+        attributes: {
+            nombre: string,
+            descripcion:string
+        }
     }
 }

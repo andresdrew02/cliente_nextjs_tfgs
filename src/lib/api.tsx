@@ -25,7 +25,8 @@ export async function postRegisterForm(body: {}) {
 export async function getProductsByName(
   str: string | null,
   rango: number[],
-  categoria: string | null
+  categoria: string | null,
+  page: number = 1
 ) {
   if (str === null) {
     const response = await fetch(
@@ -33,9 +34,9 @@ export async function getProductsByName(
         rango[0]
       }&filters[precio_oferta][$between]=${rango[1]}${
         categoria !== null
-          ? `&filters[producto][categoria][$containsi]=${categoria}`
+          ? `&filters[producto][categoria][titulo][$containsi]=${categoria}`
           : ""
-      }&populate=*`
+      }&populate=tienda&populate=producto&populate=fotos&populate=producto.categoria&pagination[page]=${page}&pagination[pageSize]=6`
     );
     const res = await response.json();
     const arrOfertas: Oferta[] = [];
@@ -54,7 +55,10 @@ export async function getProductsByName(
       };
       arrOfertas.push(oferta);
     });
-    return arrOfertas;
+    return {
+      meta:res.meta,
+      ofertas: arrOfertas
+    };
   }
 
   const response = await fetch(
@@ -62,9 +66,9 @@ export async function getProductsByName(
       rango[0]
     }&filters[precio_oferta][$between]=${rango[1]}${
       categoria !== null
-        ? `&filters[producto][categoria][$containsi]=${categoria}`
+        ? `&filters[producto][categoria][titulo][$containsi]=${categoria}`
         : ""
-    }&populate=*`
+    }&populate=tienda&populate=producto&populate=fotos&populate=producto.categoria&pagination[page]=${page}&pagination[pageSize]=6`
   );
   const res = await response.json();
   const arrOfertas: Oferta[] = [];
@@ -83,18 +87,11 @@ export async function getProductsByName(
     };
     arrOfertas.push(oferta);
   });
-  return arrOfertas;
+  return {
+    meta: res.meta,
+    ofertas: arrOfertas
+  };
 }
-
-/* export async function login(data: { username: string; pwd: string }) {
-  const response = await fetch(`${API_URL}/auth/local/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ identifier: data.username, password: data.pwd }),
-  });
-  const res = await response.json();
-  return res;
-} */
 
 export async function login(data: { username: string; pwd:string}){
   const response = await fetch('/api/sessions', {
