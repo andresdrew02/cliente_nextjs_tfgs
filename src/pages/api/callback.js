@@ -1,9 +1,9 @@
 import { withSessionRoute } from "../../lib/AuthSession/withSession";
 import { API_URL } from "../../lib/api";
 
-export default withSessionRoute(logout);
+export default withSessionRoute(callback);
 
-async function logout(req, response) {
+async function callback(req, response) {
   const constructorObject = Object.entries(req.query);
   let base_url = "http://127.0.0.1:1337/api/auth/google/callback?";
   for (let i = 0; i < constructorObject.length; i++) {

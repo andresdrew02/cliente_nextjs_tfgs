@@ -168,7 +168,7 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
                     size="xl"
                   />
               </Center>}>
-            <div className="p-10 grid grid-cols-3 gap-4">
+            <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {!loading &&
                 ofertas !== null &&
                 ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
