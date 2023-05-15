@@ -148,7 +148,7 @@ export default function MyShops({ jwt }: { jwt: string }) {
             tiendas[objIndex].attributes.descripcion = descripcion
             tiendas[objIndex].attributes.nombre = nombre
             setTiendas([...tiendas])
-        }else{
+        } else {
             toast({
                 title: 'Ha ocurrido un error al editar la tienda',
                 description: 'Ha ocurrido un error inesperado al editar la tienda',
@@ -162,7 +162,8 @@ export default function MyShops({ jwt }: { jwt: string }) {
     return (
         <Stack p={4} minH='2xs'>
             <Flex justifyContent='right'>
-                <label htmlFor="crearTiendaModal" className="btn">Crear tienda</label>
+                <label htmlFor="crearTiendaModal" className={tiendas.length >= 3 ? "btn btn-disabled disabled" : 'btn'} 
+                title={tiendas.length >= 3 ? 'Solo puedes tener un máximo de tres tiendas' : '¡Crea una tienda!'}>Crear tienda</label>
             </Flex>
             <Flex>
                 {/*Modals...*/}
