@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { FormEvent, useState } from "react";
 import { getServerSideProps } from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
@@ -10,8 +8,9 @@ import Error from "@/components/Error";
 import Success from "@/components/Success";
 import { HiArrowUturnLeft } from "react-icons/hi2";
 import { useRouter } from "next/router";
+import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 
-export default function changeProfile({ user, jwt }: { user: Usuario, jwt:string }) {
+export default function changeProfile({ user, jwt }: { user: Usuario, jwt: string }) {
   const [okay, setOkay] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,8 +32,7 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt:string
     setLoading(false);
   };
   return (
-    <>
-      <Navbar usuario={user}></Navbar>
+    <PlantillaNavFooter user={user}>
       <div
         className="text-lg flex items-center gap-2 rounded-md w-56 font-bold p-4  hover:cursor-pointer active:scale-95 transition-all"
         onClick={() => router.push("/market")}
@@ -75,8 +73,7 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt:string
           </form>
         </div>
       </div>
-      <Footer />
-    </>
+    </PlantillaNavFooter>
   );
 }
 export { getServerSideProps };

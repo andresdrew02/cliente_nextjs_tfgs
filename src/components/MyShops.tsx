@@ -1,8 +1,9 @@
-import { Button, Card, CardBody, CardFooter, Flex, FormControl, FormLabel, Heading, Input, Stack, Text, useBoolean, useToast } from "@chakra-ui/react";
+import { Button, Card, CardBody, CardFooter, Flex, FormControl, FormLabel, Heading, Input, Stack, Text, Textarea, useBoolean, useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import CrearTiendaForm from "./CrearTiendaForm";
 import { API_URL } from "@/lib/api";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 export default function MyShops({ jwt }: { jwt: string }) {
     //Todo, fetch tiendas
@@ -66,7 +67,6 @@ export default function MyShops({ jwt }: { jwt: string }) {
     }
 
     const fetchMyTiendas = async () => {
-        console.log(jwt)
         const tiendas = await fetch(`${API_URL}/tienda/me`, {
             method: 'GET',
             headers: {
@@ -162,8 +162,8 @@ export default function MyShops({ jwt }: { jwt: string }) {
     return (
         <Stack p={4} minH='2xs'>
             <Flex justifyContent='right'>
-                <label htmlFor="crearTiendaModal" className={tiendas.length >= 3 ? "btn btn-disabled disabled" : 'btn'} 
-                title={tiendas.length >= 3 ? 'Solo puedes tener un máximo de tres tiendas' : '¡Crea una tienda!'}>Crear tienda</label>
+                <label htmlFor="crearTiendaModal" className={tiendas.length >= 3 ? "btn btn-disabled disabled" : 'btn'}
+                    title={tiendas.length >= 3 ? 'Solo puedes tener un máximo de tres tiendas' : '¡Crea una tienda!'}>Crear tienda</label>
             </Flex>
             <Flex>
                 {/*Modals...*/}
@@ -191,7 +191,7 @@ export default function MyShops({ jwt }: { jwt: string }) {
                                 </FormControl>
                                 <FormControl isRequired>
                                     <FormLabel>Descripción</FormLabel>
-                                    <Input placeholder='Esta tienda trata sobre...' defaultValue={tiendaSeleccionada?.attributes?.descripcion} {...register("descripcion", {
+                                    <Textarea placeholder='Esta tienda trata sobre...' defaultValue={tiendaSeleccionada?.attributes?.descripcion} {...register("descripcion", {
                                         required: 'Para crear una tienda, necesitas establecer una descripción de la misma'
                                     })} />
                                     {errors.descripcion && <span>{errors.descripcion.message?.toString()}</span>}
@@ -216,14 +216,14 @@ export default function MyShops({ jwt }: { jwt: string }) {
                             >
                                 <Stack>
                                     <CardBody>
-                                        <Heading size='md'>{e.attributes.nombre}</Heading>
+                                        <Heading size='md'><Link className="hover:underline" href={`/tienda/${e.attributes.slug}`}>{e.attributes.nombre}</Link></Heading>
                                         <Text py='2'>
                                             {e.attributes.descripcion}
                                         </Text>
                                     </CardBody>
                                     <CardFooter gap='4'>
                                         <Button variant='ghost' colorScheme='blue'>
-                                            Añadir productos u ofertas
+                                            <Link className="hover:underline" href={`/tienda/${e.attributes.slug}`}>Añadir productos / crear ofertas</Link>
                                         </Button>
                                         <Button variant='ghost' colorScheme='yellow' onClick={() => seleccionar(e.id)}>
                                             <label htmlFor="editarTiendaModal">Editar tienda</label>

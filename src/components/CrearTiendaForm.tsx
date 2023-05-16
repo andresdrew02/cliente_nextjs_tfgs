@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
 export default function CrearTiendaForm({ cb, loading }: { cb: Function,loading:boolean }) {
@@ -18,7 +18,7 @@ export default function CrearTiendaForm({ cb, loading }: { cb: Function,loading:
             </FormControl>
             <FormControl isRequired>
                 <FormLabel>Descripción</FormLabel>
-                <Input placeholder='Esta tienda trata sobre...' {...register("descripcion", {
+                <Textarea placeholder='Esta tienda trata sobre...' {...register("descripcion", {
                     required: 'Para crear una tienda, necesitas establecer una descripción de la misma'
                 })} />
                 {errors.descripcion && <span>{errors.descripcion.message?.toString()}</span>}

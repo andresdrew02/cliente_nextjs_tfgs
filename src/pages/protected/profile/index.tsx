@@ -1,17 +1,14 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { getServerSideProps } from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
-import { useRouter } from "next/router";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import ProfileForm from "@/components/ProfileForm";
 import SecurityForms from "@/components/SecurityForms";
 import MyShops from "@/components/MyShops";
+import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 
 export default function changeProfile({ user, jwt }: { user: Usuario, jwt: string }) {
   return (
-    <>
-      <Navbar usuario={user}></Navbar>
+    <PlantillaNavFooter user={user}>
       <div className="md:p-10">
         <Tabs>
           <TabList>
@@ -24,19 +21,18 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt: strin
 
           <TabPanels>
             <TabPanel>
-              <ProfileForm jwt={jwt} user={user}/>
+              <ProfileForm jwt={jwt} user={user} />
             </TabPanel>
             <TabPanel>
-              <SecurityForms user={user}/>
+              <SecurityForms user={user} />
             </TabPanel>
             <TabPanel>
-              <MyShops jwt={jwt}/>
+              <MyShops jwt={jwt} />
             </TabPanel>
           </TabPanels>
         </Tabs>
       </div>
-      <Footer />
-    </>
+    </PlantillaNavFooter>
   );
 }
 export { getServerSideProps };

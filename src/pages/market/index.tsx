@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import InfiniteScroll from "react-infinite-scroll-component";
 import { addToCart } from "@/lib/Cart";
 import { useToast } from '@chakra-ui/react'
+import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 
 export default function index({ user, jwt }: { user: Usuario | null, jwt: string }) {
   const toast = useToast()
@@ -50,7 +51,7 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
       const maxres = await fetch("http://localhost:1337/api/maxOfertas");
       const catres = await fetch("http://localhost:1337/api/categorias");
       const max = await maxres.json();
-      const {data: cats} = await catres.json();
+      const { data: cats } = await catres.json();
       const arr_categorias: any[] = []
       cats.map((e: any) => arr_categorias.push(e.attributes.titulo))
       setCategorias(arr_categorias)
@@ -139,27 +140,27 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
           </div>
         </div>
 
-        <Navbar usuario={user === null ? { data: null } : user} />
-        <h1 className="text-center p-10 mt-10 text-4xl font-bold">
-          ¡Empieza a buscar ahora!
-        </h1>
-        <div className="w-full p-10">
-          <Searchbar
-            cb={handleSearch}
-            maxPrecio={maxPrecio}
-            order={handleOrder}
-            categorias={categorias}
-          />
-        </div>
-        <div
-          className={loading ? "w-full h-24 flex justify-center items-center" : ""}
-        >
-          <InfiniteScroll
-            dataLength={ofertas.length}
-            next={getMoreOfertas}
-            hasMore={paginationInfo === null ? true : paginationInfo.pagination.page !== paginationInfo.pagination.pageCount}
-            loader={paginationInfo === null ? ''
-              : <Center>
+        <PlantillaNavFooter user={user}>
+          <h1 className="text-center p-10 mt-10 text-4xl font-bold">
+            ¡Empieza a buscar ahora!
+          </h1>
+          <div className="w-full p-10">
+            <Searchbar
+              cb={handleSearch}
+              maxPrecio={maxPrecio}
+              order={handleOrder}
+              categorias={categorias}
+            />
+          </div>
+          <div
+            className={loading ? "w-full h-24 flex justify-center items-center" : ""}
+          >
+            <InfiniteScroll
+              dataLength={ofertas.length}
+              next={getMoreOfertas}
+              hasMore={paginationInfo === null ? true : paginationInfo.pagination.page !== paginationInfo.pagination.pageCount}
+              loader={paginationInfo === null ? ''
+                : <Center>
                   <Spinner
                     thickness="4px"
                     speed="0.65s"
@@ -167,25 +168,25 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
                     color="blue.500"
                     size="xl"
                   />
-              </Center>}>
-            <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {!loading &&
-                ofertas !== null &&
-                ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
-            </div>
-          </InfiniteScroll>
-          {loading && (
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          )}
-        </div>
+                </Center>}>
+              <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {!loading &&
+                  ofertas !== null &&
+                  ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
+              </div>
+            </InfiniteScroll>
+            {loading && (
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            )}
+          </div>
+        </PlantillaNavFooter >
       </div>
-      <Footer />
     </>
   );
 }
