@@ -15,11 +15,14 @@ import {
     ButtonGroup,
     Button,
 } from '@chakra-ui/react';
+import { AiFillMail, AiFillPhone } from 'react-icons/ai'
 import { addToCart } from '@/lib/Cart';
 import SpecificCard from './SpecificCard';
+import { useRouter } from 'next/router';
 
 export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda: Tienda | undefined, ofertas: [], isEditable: boolean }) {
     const toast = useToast()
+    const router = useRouter()
     const addToCartHandler = (id: number, cantidad: number = 1) => {
         toast({
             title: "¡Agregado al carrito!",
@@ -73,13 +76,33 @@ export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda:
                             </SimpleGrid>
                         </Box>
                     </Stack>
+                    {(tienda?.data.attributes.email !== null || tienda?.data.attributes.telefono !== null) &&
+                        <Stack
+                            spacing={{ base: 4, sm: 6 }}
+                            direction={'column'}>
+                            <Text
+                                fontSize={{ base: '16px', lg: '18px' }}
+                                color={useColorModeValue('yellow.500', 'yellow.300')}
+                                fontWeight={'500'}
+                                textTransform={'uppercase'}
+                                mb={'4'}>
+                                Información de contacto
+                            </Text>
+                            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                                <List spacing={2}>
+                                    {tienda?.data.attributes.email !== null && <Stack direction='row' alignItems='center'><AiFillMail/><Text>{tienda?.data.attributes.email}</Text></Stack>}
+                                    {tienda?.data.attributes.telefono !== null && <Stack direction='row' alignItems='center'><AiFillPhone/><Text>{tienda?.data.attributes.telefono}</Text></Stack>}
+                                </List>
+                            </SimpleGrid>
+                        </Stack>
+                    }
                 </Stack>
                 {isEditable &&
                     <Flex justifyContent='right'>
                         <Stack>
                             <ButtonGroup variant='outline' spacing='6'>
-                                <Button colorScheme='blue'>Gestionar productos</Button>
-                                <Button colorScheme='blue'>Gestionar ofertas</Button>
+                                <Button colorScheme='blue' onClick={() => router.push(`/tienda/${tienda?.data.attributes.slug}/productos`)}>Gestionar productos</Button>
+                                <Button colorScheme='blue' onClick={() => router.push(`/tienda/${tienda?.data.attributes.slug}/ofertas`)}>Gestionar ofertas</Button>
                             </ButtonGroup>
                         </Stack>
                     </Flex>}

@@ -158,9 +158,6 @@ export async function resetUserPassword(formData: FormData){
 }
 
 export async function postResetPassword(formData: FormData, code: string){
-  /**code: 'privateCode', // code contained in the reset link of step 3.
-    password: 'userNewPassword',
-    passwordConfirmation: 'userNewPassword', */
     formData.append("code",code)
     const body = Object.fromEntries(formData.entries())
     const response = await(await fetch(`${API_URL}/auth/reset-password/`,{
@@ -171,4 +168,9 @@ export async function postResetPassword(formData: FormData, code: string){
       body: JSON.stringify(body)
     })).json()
     return response
+}
+
+export async function getAllCategorias(){
+  const response = await(await fetch(`${API_URL}/categorias`)).json()
+  return response
 }

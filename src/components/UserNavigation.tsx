@@ -63,7 +63,7 @@ export default function UserNavigation({ usuario }: { usuario: Usuario }) {
           tabIndex={0}
           className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li className="text-base font-bold">{usuario.data?.username}</li>
+          <li className="text-base font-bold">@{usuario.data?.username}</li>
           <li>
             <a className="justify-between" onClick={() => router.push('/protected/profile')}>
               Perfil

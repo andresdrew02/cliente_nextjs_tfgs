@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Searchbar from "@/components/Searchbar";
-import { changeRecienCreado, getProductsByName } from "../../lib/api";
+import { changeRecienCreado, getAllCategorias, getProductsByName } from "../../lib/api";
 import { useEffect, useState } from "react";
 import Card from "@/components/Card";
 import { Center, Spinner } from "@chakra-ui/react";
@@ -21,6 +21,7 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
   const [maxPrecio, setMaxPrecio] = useState<number>(100000);
   const [loading, setLoading] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<boolean>(false);
+  const [didSearch,setDidSearch] = useState<boolean>(false)
   const page = 1
   const [paginationInfo, setPaginationInfo] = useState<{
     pagination: {
@@ -49,9 +50,8 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
   useEffect(() => {
     const initFetching = async () => {
       const maxres = await fetch("http://localhost:1337/api/maxOfertas");
-      const catres = await fetch("http://localhost:1337/api/categorias");
       const max = await maxres.json();
-      const { data: cats } = await catres.json();
+      const { data: cats } = await getAllCategorias()
       const arr_categorias: any[] = []
       cats.map((e: any) => arr_categorias.push(e.attributes.titulo))
       setCategorias(arr_categorias)
@@ -83,6 +83,7 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
     setPaginationInfo(meta)
     setOfertas(evaluateOrder(order, ofertas));
     setLoading(false);
+    setDidSearch(true)
   };
 
   const handleOrder = (order: string | null) => {
@@ -155,26 +156,29 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
           <div
             className={loading ? "w-full h-24 flex justify-center items-center" : ""}
           >
-            <InfiniteScroll
-              dataLength={ofertas.length}
-              next={getMoreOfertas}
-              hasMore={paginationInfo === null ? true : paginationInfo.pagination.page !== paginationInfo.pagination.pageCount}
-              loader={paginationInfo === null ? ''
-                : <Center>
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="xl"
-                  />
-                </Center>}>
-              <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {!loading &&
-                  ofertas !== null &&
-                  ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
-              </div>
-            </InfiniteScroll>
+            {ofertas.length === 0 && didSearch && <h1 className="text-center text-xl p-4 font-bold">No se han encontrado ofertas</h1>}
+            {ofertas.length > 0 &&
+              <InfiniteScroll
+                dataLength={ofertas.length}
+                next={getMoreOfertas}
+                hasMore={paginationInfo === null ? true : paginationInfo.pagination.page !== paginationInfo.pagination.pageCount}
+                loader={paginationInfo === null ? ''
+                  : <Center>
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="xl"
+                    />
+                  </Center>}>
+                <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {!loading &&
+                    ofertas !== null &&
+                    ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
+                </div>
+              </InfiniteScroll>
+            }
             {loading && (
               <Spinner
                 thickness="4px"

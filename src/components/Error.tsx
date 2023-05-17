@@ -1,4 +1,5 @@
-export default function Success({ msg }: { msg: string|string[] }) {
+import { ReactNode } from "react";
+export default function Success({ msg }: { msg: string|string[]}) {
   return (
     <div className="alert alert-error shadow-lg">
       <div>

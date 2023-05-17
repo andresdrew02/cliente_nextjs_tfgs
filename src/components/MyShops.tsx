@@ -14,13 +14,15 @@ export default function MyShops({ jwt }: { jwt: string }) {
     const toast = useToast()
     const handleCrearTienda = async (data: any) => {
         setLoading(true)
-        const { nombre, descripcion } = data
+        const { nombre, descripcion, telefono, email } = data
         const tiendaCreada = await fetch('/api/crearTienda', {
             method: 'POST',
             body: JSON.stringify({
                 data: {
                     nombre: nombre,
-                    descripcion: descripcion
+                    descripcion: descripcion,
+                    telefono: telefono,
+                    email: email
                 }
             })
         })
@@ -128,13 +130,15 @@ export default function MyShops({ jwt }: { jwt: string }) {
     }
 
     const editar = async (data: any) => {
-        const { nombre, descripcion } = data
+        const { nombre, descripcion, email, telefono } = data
         const res = await fetch('/api/editarTienda', {
             method: 'POST',
             body: JSON.stringify({
                 id: tiendaSeleccionada.id,
                 nombre: nombre,
-                descripcion: descripcion
+                descripcion: descripcion,
+                email: email,
+                telefono: telefono
             })
         })
         if (res.ok) {
@@ -195,6 +199,20 @@ export default function MyShops({ jwt }: { jwt: string }) {
                                         required: 'Para crear una tienda, necesitas establecer una descripción de la misma'
                                     })} />
                                     {errors.descripcion && <span>{errors.descripcion.message?.toString()}</span>}
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Dirección de correo</FormLabel>
+                                    <Input placeholder='correo@crearte.com' defaultValue={tiendaSeleccionada?.attributes?.email} {...register("email")} />
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Número de teléfono</FormLabel>
+                                    <Input placeholder='+34123456789' defaultValue={tiendaSeleccionada?.attributes?.telefono} {...register("telefono", {
+                                        pattern: {
+                                            value: /^\+?\d{1,3}[-.\s]?\(?\d{1,}\)?[-.\s]?\d{1,}[-.\s]?\d{1,}[-.\s]?\d{1,}$/,
+                                            message: 'Número de teléfono no válido'
+                                        }
+                                    })} />
+                                    {errors.telefono && <span>{errors.telefono.message?.toString()}</span>}
                                 </FormControl>
                                 <div>
                                     <label htmlFor="editarTiendaModal" className="btn btn-error mt-4">Cancelar</label>

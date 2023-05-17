@@ -1,17 +1,19 @@
 import { withSessionRoute } from "../../lib/AuthSession/withSession";
 import { API_URL } from "../../lib/api";
 
-export default withSessionRoute(crearTienda);
+export default withSessionRoute(editarTienda);
+const numberRegex = /^\+?\d{1,3}[-.\s]?\(?\d{1,}\)?[-.\s]?\d{1,}[-.\s]?\d{1,}[-.\s]?\d{1,}$/
+const nameRegex = /^[a-zA-Z ]{10,32}$/
+const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const checkName = (str) => {
-    const regexp = /^[a-zA-Z ]{10,32}$/
+const checkRegexp = (str, regexp) => {
     const checker = new RegExp(regexp)
     return checker.test(str)
 }
 
-async function crearTienda(req, response) {
+async function editarTienda(req, response) {
     const { jwt } = req.session.user;
-    const { id, nombre, descripcion } = JSON.parse(req.body)
+    const { id, nombre, descripcion, telefono, email } = JSON.parse(req.body)
 
     if (!jwt) {
         //borrar sesión y redireccionar
@@ -22,7 +24,16 @@ async function crearTienda(req, response) {
         return response.status(400).send("")
     }
 
-    if (!checkName(nombre)) {
+    if (!checkRegexp(nombre,nameRegex)) {
+        return response.status(400).send("")
+    }
+
+
+    if (telefono !== '' && !checkRegexp(telefono,numberRegex)){
+        return response.status(400).send("")
+    }
+
+    if (email !== '' && !checkRegexp(email,mailRegex)){
         return response.status(400).send("")
     }
 
@@ -32,7 +43,7 @@ async function crearTienda(req, response) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwt}`
         },
-        body: JSON.stringify({nombre: nombre, descripcion: descripcion})
+        body: JSON.stringify({nombre: nombre, descripcion: descripcion, email: email, telefono:telefono})
     })
     
     return response.status(res.status).send("")
