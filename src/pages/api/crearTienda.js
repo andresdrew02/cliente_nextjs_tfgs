@@ -16,7 +16,6 @@ async function crearTienda(req, response) {
     const { data: { nombre, descripcion, telefono, email } } = JSON.parse(req.body)
 
     if (!jwt) {
-        //borrar sesión y redireccionar
         return response.status(403).send("")
     }
 

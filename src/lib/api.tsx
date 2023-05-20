@@ -34,9 +34,9 @@ export async function getProductsByName(
         rango[0]
       }&filters[precio_oferta][$between]=${rango[1]}${
         categoria !== null
-          ? `&filters[producto][categoria][titulo][$containsi]=${categoria}`
+          ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
           : ""
-      }&populate=tienda&populate=producto&populate=fotos&populate=producto.categoria&pagination[page]=${page}&pagination[pageSize]=6`
+      }&populate=tienda&populate=productos&populate=fotos&populate=productos.categoria&pagination[page]=${page}&pagination[pageSize]=6`
     );
     const res = await response.json();
     const arrOfertas: Oferta[] = [];
@@ -48,7 +48,7 @@ export async function getProductsByName(
           nombre: e.attributes.nombre,
           descripcion: e.attributes.descripcion,
           precio_oferta: e.attributes.precio_oferta,
-          producto: e.attributes.producto,
+          productos: e.attributes.productos,
           tienda: e.attributes.tienda,
         },
         fotos: e.attributes.fotos,
@@ -66,11 +66,12 @@ export async function getProductsByName(
       rango[0]
     }&filters[precio_oferta][$between]=${rango[1]}${
       categoria !== null
-        ? `&filters[producto][categoria][titulo][$containsi]=${categoria}`
+        ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
         : ""
-    }&populate=tienda&populate=producto&populate=fotos&populate=producto.categoria&pagination[page]=${page}&pagination[pageSize]=6`
+    }&populate=tienda&populate=productos&populate=fotos&populate=productos.categoria&pagination[page]=${page}&pagination[pageSize]=6`
   );
   const res = await response.json();
+
   const arrOfertas: Oferta[] = [];
   res.data.map((e: any) => {
     const oferta: Oferta = {
@@ -80,7 +81,7 @@ export async function getProductsByName(
         nombre: e.attributes.nombre,
         descripcion: e.attributes.descripcion,
         precio_oferta: e.attributes.precio_oferta,
-        producto: e.attributes.producto,
+        productos: e.attributes.productos,
         tienda: e.attributes.tienda,
       },
       fotos: e.attributes.fotos,
@@ -172,5 +173,44 @@ export async function postResetPassword(formData: FormData, code: string){
 
 export async function getAllCategorias(){
   const response = await(await fetch(`${API_URL}/categorias`)).json()
+  return response
+}
+
+export async function getOfertaPorId(id: string | string[] | undefined){
+  type ofertaResponse = {
+    success: boolean
+    data?: Oferta
+    errorMsg?: String
+  }
+
+  const genericResponse: ofertaResponse = {
+    success: false,
+    errorMsg: 'Ha ocurrido un error al ver la oferta'
+  }
+
+  if (!id || Array.isArray(id)){
+    return genericResponse
+  }
+
+  if (Number.isNaN(parseInt(id))){
+    const response : ofertaResponse = {
+      success: false,
+      errorMsg: "El ID de la oferta debe de ser un número"
+    }
+    return response
+  }
+
+  const oferta = await (await fetch(`${API_URL}/ofertas/${id}?populate=tienda&populate=fotos&populate=productos&populate=productos.categoria`)).json()
+  if (oferta.data === null){
+    const response : ofertaResponse = {
+      success: false,
+      errorMsg: "No se ha encontrado ninguna oferta"
+    }
+    return response
+  }
+  const response: ofertaResponse = {
+    success: true,
+    data: oferta.data
+  }
   return response
 }

@@ -1,6 +1,6 @@
 interface Tienda{
-    id: number,
     data:{
+    id: number
         attributes: {
             nombre: string,
             descripcion:string

@@ -5,7 +5,9 @@ interface Oferta{
         descripcion:string,
         nombre:string,
         precio_oferta:number,
-        producto: Producto | any,
+        productos: {
+            data: Producto[]
+        },
         tienda: Tienda
     },
     fotos:any

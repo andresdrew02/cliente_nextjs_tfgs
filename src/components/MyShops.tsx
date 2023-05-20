@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import CrearTiendaForm from "./CrearTiendaForm";
 import { API_URL } from "@/lib/api";
 import { useForm } from "react-hook-form";
+import { MdAddBusiness } from 'react-icons/md'
 import Link from "next/link";
 
 export default function MyShops({ jwt }: { jwt: string }) {
@@ -165,9 +166,8 @@ export default function MyShops({ jwt }: { jwt: string }) {
 
     return (
         <Stack p={4} minH='2xs'>
-            <Flex justifyContent='right'>
-                <label htmlFor="crearTiendaModal" className={tiendas.length >= 3 ? "btn btn-disabled disabled" : 'btn'}
-                    title={tiendas.length >= 3 ? 'Solo puedes tener un máximo de tres tiendas' : '¡Crea una tienda!'}>Crear tienda</label>
+            <Flex justifyContent='right' title={tiendas.length >= 3 ? 'Solo puedes tener un máximo de tres tiendas' : '¡Crea una tienda!'}>
+                <label htmlFor="crearTiendaModal" className={tiendas.length >= 3 ? "btn btn-disabled disabled text-3xl" : 'btn text-3xl'}><MdAddBusiness/></label>
             </Flex>
             <Flex>
                 {/*Modals...*/}

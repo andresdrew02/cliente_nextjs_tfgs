@@ -4,6 +4,7 @@ import { addToCart } from '@/lib/Cart';
 import Link from 'next/link';
 
 export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHandler: Function }) {
+  console.log(oferta.attributes)
   return (
     <div className="card w-96 h-[32rem] bg-base-300 shadow-xl">
       <figure>
@@ -16,16 +17,29 @@ export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHand
         <h1 className="card-title">
           {oferta.attributes.nombre}
           <div className="badge badge-secondary">
-            {oferta.attributes.producto.data.attributes.categoria.data.attributes.titulo.substring(0, 1).toUpperCase() + oferta.attributes.producto.data.attributes.categoria.data.attributes.titulo.substring(1)}
+            {oferta.attributes.productos.data[0].attributes.categoria.data.attributes.titulo}
           </div>
+          {oferta.attributes.productos.data.length >= 2 &&
+            <>
+              <div className="badge badge-secondary">
+                {oferta.attributes.productos.data[1].attributes.categoria.data.attributes.titulo}
+              </div>
+              <div>
+                {oferta.attributes.productos.data.length > 2 && '...'}
+              </div>
+            </>
+
+          }
         </h1>
         <Link className='hover:underline' href={`/tienda/${oferta.attributes.tienda.data.attributes.slug}`}>{oferta.attributes.tienda.data.attributes.nombre}</Link>
         <div className='divider'></div>
         <div className="flex items-center gap-10">
-          <button className="btn gap-2 btn-outline">
-            <CgDetailsMore className='text-2xl' />
-            Ver mas
-          </button>
+          <Link href={`/market/${oferta.id}`}>
+            <button className="btn gap-2 btn-outline">
+              <CgDetailsMore className='text-2xl' />
+              Ver mas
+            </button>
+          </Link>
           <p className="text-xl">{oferta.attributes.precio_oferta}€</p>
           <button className="btn btn-circle" onClick={() => cartHandler(oferta.id)}>
             <AiOutlineShoppingCart className='text-2xl' />

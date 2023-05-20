@@ -40,8 +40,8 @@ export default function EditProductoForm({ producto, cb }: { producto: Producto 
                         message: 'El nombre puede tener como máximo 100 caracteres de longitud'
                     },
                     pattern: {
-                        value: /^[A-Za-z\s]{0,100}$/,
-                        message: 'El nombre del producto solo puede contener letras.'
+                        value: /^[A-Za-z\s]{10,100}$/,
+                        message: 'El nombre del producto solo puede contener letras y debe de estar situado entre 10 y 100 caracteres.'
                     }
                 })} />
                 <label className="label">

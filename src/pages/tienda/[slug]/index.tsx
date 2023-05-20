@@ -21,14 +21,12 @@ export default function Tienda({ user }: { user: Usuario | null }) {
     const getTienda = async () => {
         setLoading(true)
         const tienda = await (await fetch(`${API_URL}/tiendas/${slug}`)).json()
-        console.log(tienda)
         if (tienda.data === null) {
             router.push('/error/errorPage?code=404&msg=No%20se%20ha%20encontrado%20la%20tienda')
             return
         }
         setTienda(tienda)
         setOfertas(tienda.meta)
-        console.log(tienda)
         if (tienda?.data.attributes.admin_tienda.data.id === user?.data?.id) {
             setEditable(true)
         }

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { getServerSideProps } from "../../market";
+import { getServerSideProps } from "../../../market";
 import Usuario from "@/interfaces/Usuario";
 import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { Button, ButtonGroup, Center, Heading, Spinner, Stack, Text } from "@cha
 import { AiFillEdit } from 'react-icons/ai'
 import EditProductoForm from "@/components/EditProductoForm";
 
-export default function Tienda({ user, jwt }: { user: Usuario | null, jwt: string }) {
+export default function Productos({ user, jwt }: { user: Usuario | null, jwt: string }) {
     const router = useRouter()
     const [tienda, setTienda] = useState<Tienda>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -120,7 +120,7 @@ export default function Tienda({ user, jwt }: { user: Usuario | null, jwt: strin
                     <Heading>Gestionando productos de {tienda?.data.attributes.nombre}</Heading>
                     <Stack>
                         <ButtonGroup spacing='6'>
-                            <Button colorScheme='green'>Añadir un producto</Button>
+                            <Button colorScheme='green' onClick={() => router.push(`/tienda/${tienda?.data.attributes.slug}/productos/crear-producto`)}>Añadir un producto</Button>
                             <Button colorScheme='red' onClick={borrar} isDisabled={productosSeleccionados.length === 0}>Borrar seleccionados</Button>
                         </ButtonGroup>
                     </Stack>

@@ -58,7 +58,7 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
                 <a onClick={() => router.push('/market')}>Buscar una tienda</a>
               </li>
               <li>
-                <a>Gestionar mis tiendas</a>
+                <a onClick={() => router.push('/protected/profile')}>Gestionar mis tiendas</a>
               </li>
             </ul>
           </li>
