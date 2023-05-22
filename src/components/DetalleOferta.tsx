@@ -10,6 +10,8 @@ export default function DetalleOferta({ oferta }: { oferta: any }) {
     const [cantidad, setCantidad] = useState<number>(0)
     const toast = useToast()
 
+    console.log(oferta)
+
     useEffect(() => {
         console.log(cantidad)
     }, [])
