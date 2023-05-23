@@ -3,9 +3,8 @@ import { getServerSideProps } from "../";
 import Usuario from "@/interfaces/Usuario";
 import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 import { ChangeEvent, useEffect, useState } from "react";
-import { API_URL } from "@/lib/api";
-import { useForm } from "react-hook-form";
-import { Box, Button, ButtonGroup, Center, Checkbox, Flex, FormControl, FormLabel, Grid, GridItem, Heading, Image, Input, ListItem, Select, Spinner, Stack, Text, Textarea, UnorderedList, VStack } from "@chakra-ui/react";
+import { API_URL, deleteOferta } from "@/lib/api";
+import { Box, Button, ButtonGroup, Center, Checkbox, Flex, FormControl, FormLabel, Grid, GridItem, Heading, Image, Input, ListItem, Select, Spinner, Stack, Text, Textarea, UnorderedList, VStack, useToast } from "@chakra-ui/react";
 import Link from "next/link";
 
 export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: string }) {
@@ -17,6 +16,7 @@ export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: stri
     const [disabled, setDisabled] = useState<boolean>(false)
     const [pageSize, setPageSize] = useState<string>("10")
     const { slug } = router.query
+    const toast = useToast()
 
     if (!slug) {
         router.push('/error/errorPage?msg=Para%20buscar%20una%20tienda,%20necesita%20poner%20el%20código%20del%20la%20tienda')
@@ -66,6 +66,25 @@ export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: stri
         }
     }, [page, pageSize])
 
+    const deleteHandler = async (id: string,jwt:string,slug:string|string[]|undefined) => {
+        const isOk = await deleteOferta(id,jwt,slug)
+        if (isOk){
+            toast({
+                title: 'Oferta borrada con éxito',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+              })
+            setOfertas(ofertas.filter((e:any) => e.id !== id))
+        }else{
+            toast({
+                title: 'Ha ocurrido un error al borrar la oferta..',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+              })
+        }
+    }
 
     return (
         <PlantillaNavFooter user={user}>
@@ -144,8 +163,8 @@ export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: stri
                                     Tienda: {e.attributes.tienda.data.attributes.nombre}
                                 </Text>
                                 <ButtonGroup p={2}>
-                                    <Button colorScheme="yellow">Editar oferta</Button>
-                                    <Button colorScheme="red">Borrar oferta</Button>
+                                    <Link href={`/tienda/${slug}/ofertas/${e.id}/editar`}><Button colorScheme="yellow">Editar oferta</Button></Link>
+                                    <Button colorScheme="red" onClick={() => deleteHandler(e.id,jwt,slug)}>Borrar oferta</Button>
                                 </ButtonGroup>
                             </Box>
                         </Box>

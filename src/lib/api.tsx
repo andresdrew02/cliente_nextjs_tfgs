@@ -30,12 +30,10 @@ export async function getProductsByName(
 ) {
   if (str === null) {
     const response = await fetch(
-      `${API_URL}/ofertas?filters[precio_oferta][$between]=${
-        rango[0]
-      }&filters[precio_oferta][$between]=${rango[1]}${
-        categoria !== null
-          ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
-          : ""
+      `${API_URL}/ofertas?filters[precio_oferta][$between]=${rango[0]
+      }&filters[precio_oferta][$between]=${rango[1]}${categoria !== null
+        ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
+        : ""
       }&populate=tienda&populate=productos&populate=fotos&populate=productos.categoria&pagination[page]=${page}&pagination[pageSize]=6`
     );
     const res = await response.json();
@@ -56,18 +54,16 @@ export async function getProductsByName(
       arrOfertas.push(oferta);
     });
     return {
-      meta:res.meta,
+      meta: res.meta,
       ofertas: arrOfertas
     };
   }
 
   const response = await fetch(
-    `${API_URL}/ofertas?filters[$or][0][nombre][$containsi]=${str}&filters[$or][1][tienda][nombre][$containsi]=${str}&filters[precio_oferta][$between]=${
-      rango[0]
-    }&filters[precio_oferta][$between]=${rango[1]}${
-      categoria !== null
-        ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
-        : ""
+    `${API_URL}/ofertas?filters[$or][0][nombre][$containsi]=${str}&filters[$or][1][tienda][nombre][$containsi]=${str}&filters[precio_oferta][$between]=${rango[0]
+    }&filters[precio_oferta][$between]=${rango[1]}${categoria !== null
+      ? `&filters[productos][categoria][titulo][$containsi]=${categoria}`
+      : ""
     }&populate=tienda&populate=productos&populate=fotos&populate=productos.categoria&pagination[page]=${page}&pagination[pageSize]=6`
   );
   const res = await response.json();
@@ -94,10 +90,10 @@ export async function getProductsByName(
   };
 }
 
-export async function login(data: { username: string; pwd:string}){
+export async function login(data: { username: string; pwd: string }) {
   const response = await fetch('/api/sessions', {
     method: 'POST',
-    headers: {'Content-type': 'application/json'},
+    headers: { 'Content-type': 'application/json' },
     body: JSON.stringify(data)
   })
   return response.status
@@ -138,45 +134,59 @@ export async function updateProfilePicture(
   return response.ok;
 }
 
-export async function resetUserPassword(formData: FormData){
+export async function resetUserPassword(formData: FormData) {
   const body = Object.fromEntries(formData.entries());
-  try{
-    const response = await(await fetch(`${API_URL}/auth/forgot-password`,{
+  try {
+    const response = await (await fetch(`${API_URL}/auth/forgot-password`, {
       method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(body)
     })).json()
-    if (response.ok !== undefined && response.ok === true){
+    if (response.ok !== undefined && response.ok === true) {
       return true
     }
     return false
   }
-  catch(err){
+  catch (err) {
     return false
   }
 }
 
-export async function postResetPassword(formData: FormData, code: string){
-    formData.append("code",code)
-    const body = Object.fromEntries(formData.entries())
-    const response = await(await fetch(`${API_URL}/auth/reset-password/`,{
-      method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      body: JSON.stringify(body)
-    })).json()
-    return response
-}
-
-export async function getAllCategorias(){
-  const response = await(await fetch(`${API_URL}/categorias`)).json()
+export async function postResetPassword(formData: FormData, code: string) {
+  formData.append("code", code)
+  const body = Object.fromEntries(formData.entries())
+  const response = await (await fetch(`${API_URL}/auth/reset-password/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body)
+  })).json()
   return response
 }
 
-export async function getOfertaPorId(id: string | string[] | undefined){
+export async function getAllCategorias() {
+  const response = await (await fetch(`${API_URL}/categorias`)).json()
+  return response
+}
+
+export async function deleteOferta(id: string, jwt: string, slug:string | undefined | string[]) {
+  if (slug === undefined || Array.isArray(slug)){
+    return false
+  }
+  const response = await fetch(`${API_URL}/ofertas/${id}?slug=${slug}`, {
+    method:'DELETE',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt}`,
+    }
+  })
+  return response.ok
+}
+
+export async function getOfertaPorId(id: string | string[] | undefined) {
   type ofertaResponse = {
     success: boolean
     data?: Oferta
@@ -188,12 +198,12 @@ export async function getOfertaPorId(id: string | string[] | undefined){
     errorMsg: 'Ha ocurrido un error al ver la oferta'
   }
 
-  if (!id || Array.isArray(id)){
+  if (!id || Array.isArray(id)) {
     return genericResponse
   }
 
-  if (Number.isNaN(parseInt(id))){
-    const response : ofertaResponse = {
+  if (Number.isNaN(parseInt(id))) {
+    const response: ofertaResponse = {
       success: false,
       errorMsg: "El ID de la oferta debe de ser un número"
     }
@@ -201,8 +211,8 @@ export async function getOfertaPorId(id: string | string[] | undefined){
   }
 
   const oferta = await (await fetch(`${API_URL}/ofertas/${id}?populate=tienda&populate=fotos&populate=productos&populate=productos.categoria`)).json()
-  if (oferta.data === null){
-    const response : ofertaResponse = {
+  if (oferta.data === null) {
+    const response: ofertaResponse = {
       success: false,
       errorMsg: "No se ha encontrado ninguna oferta"
     }
