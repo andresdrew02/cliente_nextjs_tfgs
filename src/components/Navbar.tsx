@@ -3,6 +3,7 @@ import ContactForm from '../components/ContactForm'
 import { useRouter } from "next/dist/client/router";
 import Usuario from "@/interfaces/Usuario";
 import UserNavigation from "./UserNavigation";
+import Cart from "./Cart";
 
 export default function Navbar( {usuario}:{usuario: Usuario} ) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,10 +34,10 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
                 <a onClick={() => router.push('/market')}>Buscar ofertas</a>
               </li>
               <li>
-                <a>Subir una oferta</a>
+                <a onClick={() => router.push('/protected/profile')}>Subir una oferta</a>
               </li>
               <li>
-                <a>Gestionar mis ofertas</a>
+                <a onClick={() => router.push('/protected/profile')}>Gestionar mis ofertas</a>
               </li>
             </ul>
           </li>
@@ -83,6 +84,9 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
                 <a onClick={onOpen}>Solicitar ayuda</a>
               </li>
             </ul>
+          </li>
+          <li>
+            <Cart/>
           </li>
           <li>
             {usuario.data !== null ? <UserNavigation usuario={usuario}/> : <button className="btn bg-primary border-none text-white" onClick={() => router.push('/auth-portal')}>Iniciar sesión</button>}

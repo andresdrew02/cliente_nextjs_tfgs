@@ -17,7 +17,15 @@ export default function DetalleOferta({ oferta }: { oferta: any }) {
     }, [])
 
     const addToCartHandler = () => {
-        //controlar que no añade un 0
+        if (cantidad === 0){
+            toast({
+                title: "Debes de elegir una cantidad para agregar la oferta al carrito",
+                status: 'error',
+                duration: 1000,
+                isClosable: true
+            })
+            return
+        }
         toast({
             title: "¡Agregado al carrito!",
             description: "Se ha agregado la oferta al carrito.",
