@@ -4,15 +4,17 @@ import Usuario from "@/interfaces/Usuario"
 import { Box, Button, Divider, Flex, Heading, Image, Stack, Text, useToast } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import { CartItems, deleteFromLocalCart, getLocalCart } from "@/lib/Cart"
-import { API_URL } from "@/lib/api"
+import { API_URL, checkOut } from "@/lib/api"
 import { FaTrash } from "react-icons/fa"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
-export default function Carrito({ user }: { user: Usuario }) {
+export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
     const [cart, setCart] = useState<CartItems | null | undefined>()
     const [ofertas, setOfertas] = useState<any[]>([])
     const [total, setTotal] = useState<number>(0)
     const toast = useToast()
+    const router = useRouter()
     const firstRender = useRef(true)
 
     const getOfertas = async () => {
@@ -43,7 +45,10 @@ export default function Carrito({ user }: { user: Usuario }) {
         getOfertas()
     }
 
-    const pagarHandler = () => {
+    const pagarHandler = async () => {
+        if (user === null) {
+            router.push('/auth-portal')
+        }
         if (total < 5) {
             toast({
                 title: 'El pago mínimo a realizar debe de ser de almenos 5€',
@@ -52,6 +57,41 @@ export default function Carrito({ user }: { user: Usuario }) {
                 duration: 2500
             })
         }
+        await checkOut(ofertas, jwt, (response: any) => {
+            if (!response) {
+                toast({
+                    title: 'Ha ocurrido un error inesperado al intentar redireccionarte al pago',
+                    status: 'error',
+                    isClosable: true,
+                    duration: 2500
+                })
+            } else if (response.error) {
+                if (response.error) {
+                    toast({
+                        title: response.error.message,
+                        status: 'error',
+                        isClosable: true,
+                        duration: 2500
+                    })
+                }
+            }
+            if (response.paymentUrl) {
+                toast({
+                    title: 'Redireccionando al pago...',
+                    status: 'loading',
+                    isClosable: false,
+                    duration: 9000
+                })
+                router.push(response.paymentUrl)
+            } else {
+                toast({
+                    title: 'Ha ocurrido un error inesperado al intentar redireccionarte al pago',
+                    status: 'error',
+                    isClosable: true,
+                    duration: 2500
+                })
+            }
+        })
     }
 
     useEffect(() => {
@@ -79,7 +119,7 @@ export default function Carrito({ user }: { user: Usuario }) {
                                                 <Image src={`http://localhost:1337${e.oferta.data.attributes.fotos.data[0].attributes.url}`} alt={e.oferta.data.attributes.nombre} boxSize={50} objectFit="cover" mr={4} />
                                                 <Box>
                                                     <Link href={`/market/${e.oferta.data.id}`}>
-                                                        <Text fontSize="xl" fontWeight="bold" mb={1} _hover={{textDecoration: 'underline'}}>
+                                                        <Text fontSize="xl" fontWeight="bold" mb={1} _hover={{ textDecoration: 'underline' }}>
                                                             {e.oferta.data.attributes.nombre}
                                                         </Text>
                                                     </Link>

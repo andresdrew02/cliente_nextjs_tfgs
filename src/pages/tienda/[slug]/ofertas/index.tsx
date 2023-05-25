@@ -45,7 +45,6 @@ export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: stri
         })).json()
         setOfertas(ofertas.data)
         if (ofertas.data.length < pageSize){
-            console.log(ofertas.data.length,pageSize)
             setDisabled(true)
         }else{
             setDisabled(false)

@@ -224,3 +224,31 @@ export async function getOfertaPorId(id: string | string[] | undefined) {
   }
   return response
 }
+
+export async function checkOut(ofertas: any[], jwt:string, cb: Function){
+  type requestBody = [{
+    idOferta: number
+    cantidad: number
+  }?]
+
+  if (!Array.isArray(ofertas) || ofertas.length <= 0){
+    return
+  }
+
+  const idOfertasCantidad: requestBody = []
+
+  ofertas.map(e => idOfertasCantidad.push({
+    cantidad: e.cantidad,
+    idOferta: e.oferta.data.id
+  }))
+
+  const response = await(await fetch(`${API_URL}/pedidos`,{
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt}`,
+    },
+    body: JSON.stringify(idOfertasCantidad)
+  })).json()
+  cb(response)
+}
