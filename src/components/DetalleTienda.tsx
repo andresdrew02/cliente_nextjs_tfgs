@@ -14,6 +14,11 @@ import {
     Flex,
     ButtonGroup,
     Button,
+    TabList,
+    TabPanels,
+    TabPanel,
+    Tabs,
+    Tab,
 } from '@chakra-ui/react';
 import { AiFillMail, AiFillPhone } from 'react-icons/ai'
 import { addToCart } from '@/lib/Cart';
@@ -90,8 +95,8 @@ export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda:
                             </Text>
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                                 <List spacing={2}>
-                                    {tienda?.data.attributes.email !== null && <Stack direction='row' alignItems='center'><AiFillMail/><Text>{tienda?.data.attributes.email}</Text></Stack>}
-                                    {tienda?.data.attributes.telefono !== null && <Stack direction='row' alignItems='center'><AiFillPhone/><Text>{tienda?.data.attributes.telefono}</Text></Stack>}
+                                    {tienda?.data.attributes.email !== null && <Stack direction='row' alignItems='center'><AiFillMail /><Text>{tienda?.data.attributes.email}</Text></Stack>}
+                                    {tienda?.data.attributes.telefono !== null && <Stack direction='row' alignItems='center'><AiFillPhone /><Text>{tienda?.data.attributes.telefono}</Text></Stack>}
                                 </List>
                             </SimpleGrid>
                         </Stack>
@@ -107,15 +112,28 @@ export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda:
                         </Stack>
                     </Flex>}
             </SimpleGrid>
-            <Stack>
-                <Center><Text fontSize='2xl'>Ofertas de {tienda?.data.attributes.nombre}</Text></Center>
-                <SimpleGrid columns={[1, 1, 1, 2, 3]}
-                    spacing={{ base: 8, md: 10 }}
-                    py={{ base: 5, md: 10 }}>
-                    {ofertas.length === 0 && <Text>Esta tienda todavía no tiene ninguna oferta disponible</Text>}
-                    {ofertas.length !== 0 && ofertas.map((e) => <SpecificCard oferta={e} cartHandler={addToCartHandler} />)}
-                </SimpleGrid>
-            </Stack>
+            <Tabs variant='enclosed-colored'>
+                <TabList>
+                    <Tab>Ofertas de {tienda?.data.attributes.nombre}</Tab>
+                    <Tab>Valoraciones de {tienda?.data.attributes.nombre}</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <Stack>
+                            <Center><Text fontSize='2xl'>Ofertas de {tienda?.data.attributes.nombre}</Text></Center>
+                            <SimpleGrid columns={[1, 1, 1, 2, 3]}
+                                spacing={{ base: 8, md: 10 }}
+                                py={{ base: 5, md: 10 }}>
+                                {ofertas.length === 0 && <Text>Esta tienda todavía no tiene ninguna oferta disponible</Text>}
+                                {ofertas.length !== 0 && ofertas.map((e) => <SpecificCard oferta={e} cartHandler={addToCartHandler} />)}
+                            </SimpleGrid>
+                        </Stack>
+                    </TabPanel>
+                    <TabPanel>
+                        <Heading>Aqui van las valoraciones, machote</Heading>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Container>
     );
 }

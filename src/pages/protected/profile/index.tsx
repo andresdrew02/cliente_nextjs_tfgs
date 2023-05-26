@@ -5,6 +5,7 @@ import ProfileForm from "@/components/ProfileForm";
 import SecurityForms from "@/components/SecurityForms";
 import MyShops from "@/components/MyShops";
 import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
+import ListaPedidos from "@/components/ListaPedidos";
 
 export default function changeProfile({ user, jwt }: { user: Usuario, jwt: string }) {
   return (
@@ -28,6 +29,10 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt: strin
             </TabPanel>
             <TabPanel>
               <MyShops jwt={jwt} />
+            </TabPanel>
+            <TabPanel></TabPanel>
+            <TabPanel>
+              <ListaPedidos jwt={jwt}></ListaPedidos>
             </TabPanel>
           </TabPanels>
         </Tabs>
