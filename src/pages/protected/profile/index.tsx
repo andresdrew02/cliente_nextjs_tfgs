@@ -16,7 +16,6 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt: strin
             <Tab>Perfil</Tab>
             <Tab>Seguridad</Tab>
             <Tab>Mis tiendas</Tab>
-            <Tab>Mis valoraciones</Tab>
             <Tab>Pedidos realizados</Tab>
           </TabList>
 
@@ -30,7 +29,6 @@ export default function changeProfile({ user, jwt }: { user: Usuario, jwt: strin
             <TabPanel>
               <MyShops jwt={jwt} />
             </TabPanel>
-            <TabPanel></TabPanel>
             <TabPanel>
               <ListaPedidos jwt={jwt}></ListaPedidos>
             </TabPanel>

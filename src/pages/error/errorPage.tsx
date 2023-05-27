@@ -6,18 +6,18 @@ export default function errorPage({
   errorCode: number | string | null;
   errorMsg: string | null;
 }) {
-    const router = useRouter()
-    const { code, msg } = router.query
-    if (code !== null){
-      if (!Array.isArray(code) && code !== undefined){
-        errorCode = code
-      }
-      if (!Array.isArray(msg) && msg !== undefined){
-        errorMsg=msg
-      }
+  const router = useRouter()
+  const { code, msg } = router.query
+  if (code !== null) {
+    if (!Array.isArray(code) && code !== undefined) {
+      errorCode = code
     }
+    if (!Array.isArray(msg) && msg !== undefined) {
+      errorMsg = msg
+    }
+  }
   return (
-    <div className="area">
+    <div className="area" onClick={() => router.push('/market')}>
       <div className="w-full flex-col h-screen flex justify-center items-center">
         <div>
           {errorCode !== null && (
@@ -28,6 +28,9 @@ export default function errorPage({
           <div className="roll-in-left-delayed">
             <h2 className="text-center text-gray-300 text-2xl font-bold">
               {errorMsg}
+            </h2>
+            <h2 className="text-center text-gray-300 text-2xl font-bold">
+              De click a cualquier parte para volver al mercado
             </h2>
           </div>
         </div>

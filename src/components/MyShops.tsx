@@ -5,6 +5,7 @@ import { API_URL } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import { MdAddBusiness } from 'react-icons/md'
 import Link from "next/link";
+import { createSlug } from "@/utils/slug";
 
 export default function MyShops({ jwt }: { jwt: string }) {
     //Todo, fetch tiendas
@@ -152,6 +153,7 @@ export default function MyShops({ jwt }: { jwt: string }) {
             const objIndex = tiendas.findIndex((obj => obj.id === tiendaSeleccionada.id))
             tiendas[objIndex].attributes.descripcion = descripcion
             tiendas[objIndex].attributes.nombre = nombre
+            tiendas[objIndex].attributes.slug = createSlug(nombre)
             setTiendas([...tiendas])
         } else {
             toast({
@@ -231,6 +233,7 @@ export default function MyShops({ jwt }: { jwt: string }) {
                                 overflow='hidden'
                                 variant='outline'
                                 minW='full'
+                                key={e.id}
                             >
                                 <Stack>
                                     <CardBody>

@@ -19,11 +19,17 @@ import {
     TabPanel,
     Tabs,
     Tab,
+    HStack,
+    Avatar,
+    VStack,
+    Icon,
 } from '@chakra-ui/react';
 import { AiFillMail, AiFillPhone } from 'react-icons/ai'
 import { addToCart } from '@/lib/Cart';
 import SpecificCard from './SpecificCard';
 import { useRouter } from 'next/router';
+import ValoracionTienda from './ValoracionTienda';
+import { FaStar } from 'react-icons/fa';
 
 export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda: Tienda | undefined, ofertas: [], isEditable: boolean }) {
     const toast = useToast()
@@ -125,12 +131,31 @@ export default function DetalleTienda({ tienda, ofertas, isEditable }: { tienda:
                                 spacing={{ base: 8, md: 10 }}
                                 py={{ base: 5, md: 10 }}>
                                 {ofertas.length === 0 && <Text>Esta tienda todavía no tiene ninguna oferta disponible</Text>}
-                                {ofertas.length !== 0 && ofertas.map((e) => <SpecificCard oferta={e} cartHandler={addToCartHandler} />)}
+                                {ofertas.length !== 0 && ofertas.map((e) => <SpecificCard key={e.id} oferta={e} cartHandler={addToCartHandler} />)}
                             </SimpleGrid>
                         </Stack>
                     </TabPanel>
                     <TabPanel>
-                        <Heading>Aqui van las valoraciones, machote</Heading>
+                        <ValoracionTienda tienda={tienda} />
+                        <Heading fontSize='2xl'>Valoraciones de {tienda?.data.attributes.nombre}</Heading>
+                        <Stack>
+                            {tienda?.data.attributes.valoraciones.data.length === 0 && <Text>Todavía no existen valoraciones para {tienda.data.attributes.nombre}, ¡se el primero en crear una!</Text>}
+                            {tienda?.data.attributes.valoraciones.data.map(e => (
+                                <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} key={e.id}>
+                                    <HStack mb={2} alignItems="center">
+                                        <VStack alignItems="start">
+                                            <Text fontSize="sm">{new Date(Date.parse(e.attributes.updatedAt)).toLocaleString('en-ES')}</Text>
+                                        </VStack>
+                                    </HStack>
+                                    <Text fontSize="md" mb={2}>{e.attributes.resenia}</Text>
+                                    <HStack>
+                                        {[...Array(e.attributes.valoracion)].map((_, i) => (
+                                            <Icon as={FaStar} key={i} color="orange.400" />
+                                        ))}
+                                    </HStack>
+                                </Box>
+                            ))}
+                        </Stack>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

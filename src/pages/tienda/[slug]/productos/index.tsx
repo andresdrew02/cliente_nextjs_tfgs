@@ -99,7 +99,7 @@ export default function Productos({ user, jwt }: { user: Usuario | null, jwt: st
                     <label htmlFor="editarModal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <h3 className="text-lg font-bold">Editando producto: {productoEdicion?.attributes.nombre}</h3>
                     <div className="p-4">
-                        <EditProductoForm producto={productoEdicion} cb={editar} />
+                        <EditProductoForm key={productoEdicion?.id} producto={productoEdicion} cb={editar} />
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@ export default function Productos({ user, jwt }: { user: Usuario | null, jwt: st
                                     </thead>
                                     <tbody>
                                         {productos.map((producto: Producto) => (
-                                            <tr>
+                                            <tr key={producto.id}>
                                                 <td className="flex justify-center">
                                                     <input type="checkbox" className="checkbox checkbox-error" onChange={(e) => seleccionar(e, producto)} />
                                                 </td>

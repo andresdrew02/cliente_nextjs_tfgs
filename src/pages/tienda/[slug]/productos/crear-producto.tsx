@@ -80,7 +80,7 @@ export default function crearProducto({ user }: { user: Usuario }) {
                                 <FormLabel>Descripción</FormLabel>
                                 <Textarea {...register("descripcion", {
                                     required: true, max: 500, minLength: 50, maxLength: 500, pattern: {
-                                        value: /^[a-zA-Z0-9!@#$%^&*()_+={[}\]|\\:;"'<,>.?/ -]{50,500}$/,
+                                        value: /^[a-zA-Z0-9!@#$%^&ñÑ*()_+={[}\]|\\:;"'<,>.?/ -]{50,500}$/,
                                         message: 'La descripción solo puede tener mayusculas, minusculas, letras y símbolos. Además debe de tener entre 50 y 500 caracteres'
                                     }
                                 })} />
@@ -100,7 +100,7 @@ export default function crearProducto({ user }: { user: Usuario }) {
                                 <FormLabel>Categoría</FormLabel>
                                 <Select {...register("categoria", { required: true })}>
                                     {categorias.map((e: any) => (
-                                        <option value={e.id}>{e.attributes.titulo}</option>
+                                        <option key={e.id} value={e.id}>{e.attributes.titulo}</option>
                                     ))}
                                 </Select>
                                 {errors.categoria && <span>Categoría es requerida</span>}

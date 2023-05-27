@@ -86,7 +86,7 @@ export default function Searchbar({
                   <option disabled selected>
                     Busqueda por categoría...
                   </option>
-                  {categorias.map(e => <option value={e}>{e}</option>)}
+                  {categorias.map(e => <option value={e} key={e}>{e}</option>)}
                 </select>
               </div>
               <div>

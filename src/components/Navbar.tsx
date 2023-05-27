@@ -78,9 +78,6 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
             </a>
             <ul className="p-2 bg-base-100">
               <li>
-                <a>Hacer un reporte</a>
-              </li>
-              <li>
                 <a onClick={onOpen}>Solicitar ayuda</a>
               </li>
             </ul>

@@ -4,7 +4,6 @@ import { addToCart } from '@/lib/Cart';
 import Link from 'next/link';
 
 export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHandler: Function }) {
-  console.log(oferta.attributes)
   return (
     <div className="card w-96 h-[32rem] bg-base-300 shadow-xl">
       <figure>
@@ -14,14 +13,14 @@ export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHand
         />
       </figure>
       <div className="card-body">
-        <h1 className="card-title">
+        <h1 className="font-bold">
           {oferta.attributes.nombre}
-          <div className="badge badge-secondary">
+          <div className="badge badge-secondary ml-2">
             {oferta.attributes.productos.data[0].attributes.categoria.data.attributes.titulo}
           </div>
           {oferta.attributes.productos.data.length >= 2 &&
             <>
-              <div className="badge badge-secondary">
+              <div className="badge badge-secondary ml-2">
                 {oferta.attributes.productos.data[1].attributes.categoria.data.attributes.titulo}
               </div>
               <div>

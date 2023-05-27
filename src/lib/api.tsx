@@ -117,6 +117,10 @@ export async function updateProfilePicture(
   usuario: Usuario
 ) {
 
+  if (!event){
+    return
+  }
+
   const formData = new FormData();
   formData.append("files", event[0]);
   formData.append(
@@ -172,12 +176,12 @@ export async function getAllCategorias() {
   return response
 }
 
-export async function deleteOferta(id: string, jwt: string, slug:string | undefined | string[]) {
-  if (slug === undefined || Array.isArray(slug)){
+export async function deleteOferta(id: string, jwt: string, slug: string | undefined | string[]) {
+  if (slug === undefined || Array.isArray(slug)) {
     return false
   }
   const response = await fetch(`${API_URL}/ofertas/${id}?slug=${slug}`, {
-    method:'DELETE',
+    method: 'DELETE',
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${jwt}`,
@@ -225,13 +229,13 @@ export async function getOfertaPorId(id: string | string[] | undefined) {
   return response
 }
 
-export async function checkOut(ofertas: any[], jwt:string, cb: Function){
+export async function checkOut(ofertas: any[], jwt: string, cb: Function) {
   type requestBody = [{
     idOferta: number
     cantidad: number
   }?]
 
-  if (!Array.isArray(ofertas) || ofertas.length <= 0){
+  if (!Array.isArray(ofertas) || ofertas.length <= 0) {
     return
   }
 
@@ -242,7 +246,7 @@ export async function checkOut(ofertas: any[], jwt:string, cb: Function){
     idOferta: e.oferta.data.id
   }))
 
-  const response = await(await fetch(`${API_URL}/pedidos`,{
+  const response = await (await fetch(`${API_URL}/pedidos`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

@@ -7,6 +7,9 @@ interface Tienda{
             slug: string
             telefono: string | null
             email: string | null
+            valoraciones: {
+                data: any[]
+            }
             admin_tienda:{
                 data:{
                     id: number

@@ -5,7 +5,7 @@ export default withSessionRoute(crearProducto);
 const decimalRegex = /^\d+(\.\d+)?$/
 const numberRegex = /^\d+$/
 const nameRegex = /^.{5,50}$/
-const descriptionRegex = /^[^\n]{50,500}$/
+const descriptionRegex = /^[a-zA-Z0-9!@#$%^&ñÑ*()_+={[}\]|\\:;"'<,>.?/ -]{50,500}$/
 
 const checkRegexp = (str, regexp) => {
     const checker = new RegExp(regexp)

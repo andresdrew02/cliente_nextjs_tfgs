@@ -23,14 +23,14 @@ export default function EditProductoForm({ producto, cb }: { producto: Producto 
 
     //Formulario
     return (
-        <div className="form-control w-full max-w-s">
+        <div className="form-control w-full max-w-s" key={producto.id}>
             <div className="text-error">
                 {errors.nombre && <p>{errors.nombre?.message?.toString()}</p>}
                 {errors.descripcion && <p>{errors.descripcion?.message?.toString()}</p>}
                 {errors.categoria && <p>{errors.categoria?.message?.toString()}</p>}
                 {errors.ppu && <p>{errors.ppu?.message?.toString()}</p>}
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} key={producto.id}>
                 <label className="label">
                     <span className="label-text">Nombre del producto <span className="text-error">*</span></span>
                 </label>
@@ -40,7 +40,7 @@ export default function EditProductoForm({ producto, cb }: { producto: Producto 
                         message: 'El nombre puede tener como máximo 100 caracteres de longitud'
                     },
                     pattern: {
-                        value: /^[A-Za-z\s]{10,100}$/,
+                        value: /^[A-Za-zñÑ\s]{10,100}$/,
                         message: 'El nombre del producto solo puede contener letras y debe de estar situado entre 10 y 100 caracteres.'
                     }
                 })} />
@@ -56,7 +56,7 @@ export default function EditProductoForm({ producto, cb }: { producto: Producto 
                         message: 'La descripción como máximo puede tener 200 caracteres de longitud'
                     },
                     pattern:{
-                        value: /^[a-zA-Z0-9!@#$%^&*()_+={[}\]|\\:;"'<,>.?/ -]{50,200}$/,
+                        value: /^[a-zA-Z0-9!@#$%ñÑ^&*()_+={[}\]|\\:;"'<,>.?/ -]{50,200}$/,
                         message: 'La descripción solo puede tener mayusculas, minusculas, letras y simbolos.'
                     }
                 })} placeholder="Descripción del producto" />
@@ -65,7 +65,7 @@ export default function EditProductoForm({ producto, cb }: { producto: Producto 
                 </label>
                 <select {...register("categoria", { required: 'Debes de elegir una categoría' })} className="input input-bordered max-w-xs">
                     {categorias.map(e => (
-                        <option value={e.id}>{e.attributes.titulo}</option>
+                        <option key={e.id} value={e.id}>{e.attributes.titulo}</option>
                     ))}
                 </select>
                 <div className="flex gap-1 items-center">

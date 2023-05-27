@@ -56,6 +56,7 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
                 isClosable: true,
                 duration: 2500
             })
+            return
         }
         await checkOut(ofertas, jwt, (response: any) => {
             if (!response) {
@@ -114,7 +115,7 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
                             <Stack>
                                 {ofertas.map(e => (
                                     <>
-                                        <Box bg="white" rounded="md" p={4}>
+                                        <Box bg="white" rounded="md" p={4} key={e.oferta.data.attributes.id}>
                                             <Flex align="center" mb={4}>
                                                 <Image src={`http://localhost:1337${e.oferta.data.attributes.fotos.data[0].attributes.url}`} alt={e.oferta.data.attributes.nombre} boxSize={50} objectFit="cover" mr={4} />
                                                 <Box>

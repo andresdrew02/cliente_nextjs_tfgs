@@ -121,7 +121,6 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
     <>
       <div>
         {/* Modal para elegir avatar si es una cuenta recien creada */}
-        {/* Put this part before </body> tag */}
         <input type="checkbox" id="my-modal-6" className="modal-toggle" checked={avatar} />
         <div className="modal modal-bottom sm:modal-middle">
           <div className="modal-box">
@@ -175,7 +174,7 @@ export default function index({ user, jwt }: { user: Usuario | null, jwt: string
                 <div className="p-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {!loading &&
                     ofertas !== null &&
-                    ofertas.map((e) => <Card oferta={e} cartHandler={addToCartHandler} />)}
+                    ofertas.map((e) => <Card key={e.id} oferta={e} cartHandler={addToCartHandler} />)}
                 </div>
               </InfiniteScroll>
             }

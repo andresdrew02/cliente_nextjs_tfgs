@@ -125,7 +125,7 @@ export default function Ofertas({ user, jwt }: { user: Usuario | null, jwt: stri
             <Grid w={"full"} templateColumns={["repeat(1,1fr)", "repeat(2,1fr)", "repeat(3,1fr)"]}>
                 {ofertas?.length === 0 && <Center><Text>No tienes ninguna oferta</Text></Center>}
                 {ofertas?.map((e: any) => (
-                    <GridItem p={5}>
+                    <GridItem key={e.id} p={5}>
                         <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
                             <Image src={`http://localhost:1337${e.attributes.fotos.data[0].attributes.url}`} alt={e.nombre} />
                             <Box p="6">

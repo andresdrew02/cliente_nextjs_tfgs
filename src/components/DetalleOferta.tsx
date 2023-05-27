@@ -53,7 +53,7 @@ export default function DetalleOferta({ oferta }: { oferta: any }) {
                                 <Text _hover={{ textDecoration: 'underline' }}>{oferta.attributes.tienda.data.attributes.nombre}</Text>
                             </Link>
                         </Box>
-                        <Box>
+                        <Box maxW={'30rem'}>
                             <Heading fontSize='2xl'>Descripcion</Heading>
                             <Text>{oferta.attributes.descripcion}</Text>
                         </Box>

@@ -62,7 +62,7 @@ export default function SetPasswordResetForm({code}:{code: string | string[] | u
           <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={handleReset}>
           <div>
               <label
-                htmlFor="email"
+                htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Contraseña
