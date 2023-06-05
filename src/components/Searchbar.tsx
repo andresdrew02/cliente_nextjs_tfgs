@@ -55,8 +55,8 @@ export default function Searchbar({
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4} className="bg-base-300 rounded-xl">
-            <div className="flex w-full gap-4 p-4">
-              <div className="w-1/2 flex flex-col gap-4">
+            <div className="flex w-full gap-4 p-4 md:flex-row flex-col">
+              <div className="w-full md:w-1/2 flex flex-col gap-4">
                 Filtrar por
                 <RangeSlider
                   aria-label={["min", "max"]}

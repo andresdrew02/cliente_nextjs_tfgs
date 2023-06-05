@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHandler: Function }) {
   return (
-    <div className="card w-96 h-[32rem] bg-base-300 shadow-xl">
+    <div className="card w-80 md:w-96 h-[32rem] bg-base-300 shadow-xl">
       <figure>
         <img
           src={oferta.fotos.data === null ? 'https://previews.123rf.com/images/fordzolo/fordzolo1506/fordzolo150600296/41026708-example-white-stamp-text-on-red-backgroud.jpg' : `http://localhost:1337${oferta.fotos.data[0].attributes.url}`}
@@ -32,7 +32,7 @@ export default function Card({ oferta, cartHandler }: { oferta: Oferta, cartHand
         </h1>
         <Link className='hover:underline' href={`/tienda/${oferta.attributes.tienda.data.attributes.slug}`}>{oferta.attributes.tienda.data.attributes.nombre}</Link>
         <div className='divider'></div>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-2 md:gap-10">
           <Link href={`/market/${oferta.id}`}>
             <button className="btn gap-2 btn-outline">
               <CgDetailsMore className='text-2xl' />

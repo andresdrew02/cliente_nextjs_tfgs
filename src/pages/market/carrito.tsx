@@ -105,8 +105,8 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
     }, [])
     return (
         <PlantillaNavFooter user={user}>
-            <Flex w='full' p={5} gap={10}>
-                <Box boxShadow='md' w='75%' p={4}>
+            <Flex w='full' p={5} gap={10} flexDir={['column','column','row']}>
+                <Box boxShadow='md' w={['100%','100%','75%']} p={4}>
                     <Stack>
                         <Heading>Productos</Heading>
                     </Stack>
@@ -120,13 +120,13 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
                                                 <Image src={`http://localhost:1337${e.oferta.data.attributes.fotos.data[0].attributes.url}`} alt={e.oferta.data.attributes.nombre} boxSize={50} objectFit="cover" mr={4} />
                                                 <Box>
                                                     <Link href={`/market/${e.oferta.data.id}`}>
-                                                        <Text fontSize="xl" fontWeight="bold" mb={1} _hover={{ textDecoration: 'underline' }}>
+                                                        <Text fontSize={["md","lg","xl"]} fontWeight="bold" mb={1} _hover={{ textDecoration: 'underline' }} maxW={['10rem','20rem','30rem']}>
                                                             {e.oferta.data.attributes.nombre}
                                                         </Text>
                                                     </Link>
                                                 </Box>
                                             </Flex>
-                                            <Flex justify="space-between" align="center">
+                                            <Flex justify="space-between" align="center" flexDir={['column','row','row']}>
                                                 <Box>
                                                     <Text fontWeight="bold" fontSize="xl">
                                                         Precio de la oferta: {e.oferta.data.attributes.precio_oferta}€
@@ -135,7 +135,7 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
                                                         Cantidad: {e.cantidad}
                                                     </Text>
                                                 </Box>
-                                                <Button leftIcon={<FaTrash />} colorScheme="red" variant="outline" onClick={() => borrarOferta(e.uid)}>
+                                                <Button leftIcon={<FaTrash />} colorScheme="red" variant="outline" onClick={() => borrarOferta(e.uid)} w={['full','10rem']} mt={[4,0]}>
                                                     Eliminar
                                                 </Button>
                                             </Flex>
@@ -148,7 +148,7 @@ export default function Carrito({ user, jwt }: { user: Usuario, jwt: string }) {
                         {!cart || cart.items.length <= 0 && <Text>¡Agrega una oferta al carrito!</Text>}
                     </Stack>
                 </Box>
-                <Box w='20%' boxShadow='md' p={5}>
+                <Box w={['100%','100%','20%']} boxShadow='md' p={5}>
                     <Heading fontSize='2xl'>Realizar pago</Heading>
                     <Divider orientation="horizontal" mt={2} />
                     <Stack mt={4}>

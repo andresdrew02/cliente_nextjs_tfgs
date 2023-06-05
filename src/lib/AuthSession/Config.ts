@@ -1,3 +1,4 @@
+//Config.ts
 export const ironOptions = {
     cookieName: 'crearte_cookie',
     password: process.env.COOKIE_PASSWORD as string,
