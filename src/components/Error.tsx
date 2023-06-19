@@ -1,4 +1,5 @@
-export default function Success({ msg }: { msg: string }) {
+import { ReactNode } from "react";
+export default function Success({ msg }: { msg: string|string[]}) {
   return (
     <div className="alert alert-error shadow-lg">
       <div>
@@ -15,7 +16,7 @@ export default function Success({ msg }: { msg: string }) {
             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span>{msg}</span>
+        <span>{Array.isArray(msg) ? msg.map(text => <>{text}<br/></>) : msg}</span>
       </div>
     </div>
   );

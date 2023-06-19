@@ -1,11 +1,9 @@
 import { login } from "@/lib/api";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Error from "../components/Error";
-import { UserContext } from "@/context/userContext";
-import { setLocalCookie } from "@/utils/cookies";
 import { useRouter } from "next/router";
+
 export default function LoginForm() {
-  const { setUsuario } = useContext(UserContext);
   const router = useRouter();
   const [errorDetail, setErrorDetail] = useState<{
     usernameError: boolean;
@@ -74,33 +72,16 @@ export default function LoginForm() {
         passwordErrorMessage: errorDetail.passwordErrorMessage,
       });
       return;
-    }
-    const res = await login(data);
-    if (res.data === null && res.error !== null) {
-      setResponseError({
-        error: true,
-        msg: res.error.message,
-      });
     } else {
-      //seteamos en el contexto del usuario la respuesta de la peticion
-      setUsuario({
-        data: {
-          email: res.user.email,
-          fecha_nacimiento: res.user.fecha_nacimiento,
-          id: res.user.id,
-          nombre_completo: res.user.nombre_completo,
-          username: res.user.username,
-          avatar: res.user.avatar === undefined ? null : res.user.avatar,
-          recien_creada:
-            res.user.recien_creada === undefined ||
-            res.user.recien_creada === null
-              ? null
-              : res.user.recien_creada,
-        },
-      });
-      //guardamos como cookie el token jwt
-      setLocalCookie(res.jwt);
-      router.push("/market");
+      const res = await login(data);
+      if (res !== 200) {
+        setResponseError({
+          error: true,
+          msg: "El identificador o la contraseña no es válida",
+        });
+      } else {
+        router.push("/market")
+      }
     }
   };
 
@@ -175,7 +156,9 @@ export default function LoginForm() {
           <button
             type="button"
             className="flex items-center justify-center w-full text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-md px-5 py-2.5 dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-            onClick={() => router.push('http://127.0.0.1:1337/api/connect/google')}
+            onClick={() =>
+              router.push("http://127.0.0.1:1337/api/connect/google")
+            }
           >
             <svg
               className="w-5 h-5 mr-2 -ml-1"

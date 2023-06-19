@@ -70,7 +70,7 @@ export default function ContactForm() {
               Este es el email al que le enviaremos una respuesta.
             </FormHelperText>
           ) : (
-            <h1 className="text-red-600 text-sm">{errors?.email.message}</h1>
+            <h1 className="text-red-600 text-sm">{errors?.email.message?.toString()}</h1>
           )}
         </div>
         <div className="mt-4">
@@ -90,16 +90,12 @@ export default function ContactForm() {
           </InputGroup>
 
           {errors?.title && (
-            <h1 className="text-red-600 text-sm">{errors?.title.message}</h1>
+            <h1 className="text-red-600 text-sm">{errors?.title.message?.toString()}</h1>
           )}
         </div>
         <div className="mt-4">
           <FormLabel>Detalle su motivo del contacto</FormLabel>
           <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<FaPencilAlt color="gray.300" />}
-            />
             <Textarea
               {...register("detalle", {
                 required: "Debe de detallar el motivo del contacto.",
@@ -107,7 +103,7 @@ export default function ContactForm() {
             />
           </InputGroup>
           {errors?.detalle && (
-            <h1 className="text-red-600 text-sm">{errors?.detalle.message}</h1>
+            <h1 className="text-red-600 text-sm">{errors?.detalle.message?.toString()}</h1>
           )}
         </div>
         <Button

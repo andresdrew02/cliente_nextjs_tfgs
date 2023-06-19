@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
-import UserProvider from "@/context/userContext";
 import { useEffect, useState } from "react";
 import Router from "next/router";
 import Loading from "@/components/Loading";
@@ -28,13 +27,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : (
-        <UserProvider>
-          <ChakraProvider>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </UserProvider>
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
       )}
     </>
   );

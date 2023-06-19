@@ -1,15 +1,20 @@
-import { BsFillArrowLeftCircleFill } from 'react-icons/bs'
 import { useRouter } from 'next/router';
 export default function ErrorPage({
   errorCode,
   errorMsg,
 }: {
   errorCode: number | string | null;
-  errorMsg: string;
+  errorMsg: string | null;
 }) {
     const router = useRouter()
-    const redirect = () => {
-        router.push('/market')
+    const { code, msg } = router.query
+    if (code !== null){
+      if (!Array.isArray(code) && code !== undefined){
+        errorCode = code
+      }
+      if (!Array.isArray(msg) && msg !== undefined){
+        errorMsg=msg
+      }
     }
   return (
     <div className="area">

@@ -34,7 +34,7 @@ export default function Home() {
           </motion.div>
         </div>
       </div>
-      <div className="flex w-full p-10">
+      <div className="flex md:w-full lg:p-10 lg:flex-row flex-col gap-4 lg:gap-0">
         <Valor
           img={icon}
           titulo="Pasión por la creatividad"
@@ -53,9 +53,9 @@ export default function Home() {
           valor="Nos esforzamos por ofrecer productos artesanales de la más alta calidad, seleccionados cuidadosamente por su artesanía y diseño únicos"
         />
       </div>
-      <div className="bg-primary flex mt-32">
+      <div className="bg-primary flex mt-32 lg flex-col md:flex-row">
         <Testimonial
-          testimonio="Me encantó la calidad de los productos de esta empresa. Compré una pieza de joyería artesanal y quedé impresionado por el detalle y la artesanía. Definitivamente volveré a comprar aquí."
+          testimonio="Me encantó la calidad de los productos de esta empresa. Compré una pieza de joyería artesanal y quedé impresionada por el detalle y la artesanía. Definitivamente volveré a comprar aquí."
           usuario={{
             nombre: "Maria Teresa",
             imagen:
@@ -72,12 +72,12 @@ export default function Home() {
           }}
         />
       </div>
-      <div className="flex flex-col md:flex-row w-full mt-32 p-10 gap-10">
+      <div className="flex flex-col md:flex-row w-full mt-32 md:p-10 gap-10">
         <div>
           <img
             src="https://images.unsplash.com/photo-1591256550014-150b0c0447bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
             alt="art image"
-            className="rounded-xl max-w-xl"
+            className="rounded-xl md:max-w-xl"
           />
         </div>
         <div className="">
@@ -109,7 +109,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex w-full justify-center items-center p-10 mt-10">
-        <div className="w-1/3">
+        <div className="md:w-1/3 w-full">
           <h1 className="text-center text-2xl mb-4 font-bold">
             ¡Contacta con nosotros!
           </h1>

@@ -1,55 +1,38 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import UserProvider, { UserContext } from "@/context/userContext";
-import { FormEvent, useContext, useEffect, useState } from "react";
-import getServerSideProps from "@/lib/serverProps";
+import { FormEvent, useState } from "react";
+import { getServerSideProps } from "@/lib/serverProps";
 import Usuario from "@/interfaces/Usuario";
 import {
-  changeRecienCreado,
   updateProfilePicture,
-  updateUserInfo,
 } from "@/lib/api";
-import { getLocalCookie } from "@/utils/cookies";
 import Error from "@/components/Error";
 import Success from "@/components/Success";
 import { HiArrowUturnLeft } from "react-icons/hi2";
 import { useRouter } from "next/router";
+import PlantillaNavFooter from "@/components/plantillas/PlantillaNavFooter";
 
-export default function changeProfile({ user }: { user: Usuario | null }) {
-  const { usuario, setUsuario } = useContext(UserContext);
+export default function changeProfile({ user, jwt }: { user: Usuario, jwt: string }) {
   const [okay, setOkay] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<any>();
   const router = useRouter()
 
-  useEffect(() => {
-    if (user !== null && usuario.data === null) {
-      setUsuario(user);
-    }
-  }, []);
   const handleSubmit = async (event: FormEvent) => {
     setOkay(false);
     setError(false);
     setLoading(true);
     event.preventDefault();
-    const ok = await updateProfilePicture(files, getLocalCookie(), usuario);
+    const ok = await updateProfilePicture(files, jwt, user);
     if (ok) {
       setOkay(true);
-      updateUserInfo((user: Usuario) => {
-        setUsuario(user);
-        if (user.data?.recien_creada === 'true'){
-          changeRecienCreado(getLocalCookie());
-        }
-      });
+      router.push('/api/update')
     } else {
       setError(true);
     }
     setLoading(false);
   };
   return (
-    <>
-      <Navbar usuario={usuario}></Navbar>
+    <PlantillaNavFooter user={user}>
       <div
         className="text-lg flex items-center gap-2 rounded-md w-56 font-bold p-4  hover:cursor-pointer active:scale-95 transition-all"
         onClick={() => router.push("/market")}
@@ -90,8 +73,7 @@ export default function changeProfile({ user }: { user: Usuario | null }) {
           </form>
         </div>
       </div>
-      <Footer />
-    </>
+    </PlantillaNavFooter>
   );
 }
 export { getServerSideProps };

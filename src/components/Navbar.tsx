@@ -3,18 +3,19 @@ import ContactForm from '../components/ContactForm'
 import { useRouter } from "next/dist/client/router";
 import Usuario from "@/interfaces/Usuario";
 import UserNavigation from "./UserNavigation";
+import Cart from "./Cart";
 
-export default function Navbar( {usuario}:{usuario: Usuario} ) {
+export default function Navbar({ usuario }: { usuario: Usuario }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
-  
+  //<a className="btn btn-ghost normal-case text-xl" onClick={() => router.push('/')}>Crearte</a>
   return (
-    <div className="navbar bg-base-100 p-2 ">
+    <div className="navbar bg-base-100 p-2 flex-col md:flex-row">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl" onClick={() => router.push('/')}>Crearte</a>
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 z-50">
           <li tabIndex={0}>
             <a>
               Ofertas
@@ -33,10 +34,10 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
                 <a onClick={() => router.push('/market')}>Buscar ofertas</a>
               </li>
               <li>
-                <a>Subir una oferta</a>
+                <a onClick={() => router.push('/protected/profile')}>Subir una oferta</a>
               </li>
               <li>
-                <a>Gestionar mis ofertas</a>
+                <a onClick={() => router.push('/protected/profile')}>Gestionar mis ofertas</a>
               </li>
             </ul>
           </li>
@@ -58,11 +59,11 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
                 <a onClick={() => router.push('/market')}>Buscar una tienda</a>
               </li>
               <li>
-                <a>Gestionar mis tiendas</a>
+                <a onClick={() => router.push('/protected/profile')}>Gestionar mis tiendas</a>
               </li>
             </ul>
           </li>
-          <li tabIndex={0}>
+          <li tabIndex={0} className="hidden md:flex">
             <a>
               Atención al usuario
               <svg
@@ -77,24 +78,28 @@ export default function Navbar( {usuario}:{usuario: Usuario} ) {
             </a>
             <ul className="p-2 bg-base-100">
               <li>
-                <a>Hacer un reporte</a>
-              </li>
-              <li>
                 <a onClick={onOpen}>Solicitar ayuda</a>
               </li>
             </ul>
           </li>
-          <li>
-            {usuario.data !== null ? <UserNavigation usuario={usuario}/> : <button className="btn bg-primary border-none text-white" onClick={() => router.push('/auth-portal')}>Iniciar sesión</button>}
+          <li className="hidden md:flex">
+            <Cart />
+          </li>
+          <li className="hidden md:flex">
+            {usuario.data !== null ? <UserNavigation usuario={usuario} /> : <button className="btn bg-primary border-none text-white" onClick={() => router.push('/auth-portal')}>Iniciar sesión</button>}
           </li>
         </ul>
+      </div>
+      <div className="flex md:hidden">
+        <Cart />
+        {usuario.data !== null ? <UserNavigation usuario={usuario} /> : <button className="btn bg-primary border-none text-white" onClick={() => router.push('/auth-portal')}>Iniciar sesión</button>}
       </div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
           <ModalHeader className="bg-base-300" roundedTop='2xl'>Formulario de soporte</ModalHeader>
           <ModalCloseButton />
           <ModalBody className="bg-base-300" roundedBottom='2xl'>
-            <ContactForm/>
+            <ContactForm />
           </ModalBody>
         </ModalContent>
       </Modal>

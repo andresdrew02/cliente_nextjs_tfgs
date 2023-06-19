@@ -9,7 +9,7 @@ export default function Footer() {
         <Image src={logo} alt='Logo de Crearte' className='max-w-[15rem] cursor-pointer' onClick={() => router.push('/')}/>
       </div>
       <div>
-        <span className="footer-title">Create</span>
+        <span className="footer-title">Crearte</span>
         <a className="link link-hover">Sobre nosotros</a>
         <a className="link link-hover">Contacto</a>
       </div>

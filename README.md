@@ -1,38 +1,115 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Crearte
 
-## Getting Started
+## Tabla de contenidos
 
-First, run the development server:
+ - [Información general](#info)
+ 
+ - [Caracteristicas](#cara)
+ 
+ - [Diseño](#dise)
+ 
+ - [Enlaces](#enla)
+ 
+ - [Requisitos](#requi)
+ 
+ - [Créditos](#credi)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+
+<div id='info'/>
+
+## Información general
+
+### ❓ ¿Qué es Crearte?
+**Es una plataforma e-Commerce** (en versión beta) realizada como proyecto de final de grado superior en Desarollo de Aplicaciones Web.
+
+### ⁉️ ¿Por qué un e-Commerce?
+En una plataforma de este tipo, debes de controlar muchas posibles situaciones que pueden ocurrir, por lo cual tienes que investigar o utilizar formas ingeniosas para poder solucionar los problemas que van surgiendo.
+Además, **¿por qué no?**
+
+### 💻 Tecnologías usadas
+* **Frontend:** ha sido construido con **Next.JS 13**
+* **Backend:** ha sido construido utilizando **Strapi** via RESTful
+* **SGBD:** El SGBD puede migrarse fácilmente, el utilizado en el proyecto ha sido **Postgresql**
+* **Otras:** Para implementar la *beta* del sistema de pagos, se ha utilizado **Stripe**
+
+
+<div id='cara'/>
+
+## Caracteristicas
+
+### 🤔¿Qué se puede hacer actualmente?
+Esta es una versión demostrativa de que se podría hacer en la plataforma, sin embargo, se permite.
+1. **Autenticación** local.
+1. **OAuth** mediante Google.
+1. Recuperación de credenciales y **modificación de perfil**
+1. **CRUD tiendas** virtuales.
+1. **CRUD de productos** asociados a tiendas.
+1. **CRUD de ofertas** asociadas a productos.
+1. **Busqueda** de tiendas/ofertas.
+1. **Pagos** a través de Stripe.
+
+### 🔮 Futuras implementaciones.
+Hacen falta muchas implementaciones para que esto se convierta en una versión la cual se pueda sacar a producción. Cosas las cuales, en este caso, son cosas menos relevantes para sacar una versión *beta*
+1. Seguimiento de pedidos.
+1. Responsividad para dispositivos móviles.
+1. Panel de administración.
+1. Edición/eliminación de las valoraciones asociadas a las tiendas. 
+1. Controlar multicuentas con el mismo correo electrónico.
+1. Despligue.
+
+Entre otras...
+
+
+<div id='dise'/>
+
+## Diseño 
+
+![Logo de Crearte.](https://github.com/andresdrew02/cliente_nextjs_tfgs/blob/main/src/img/logo.png?raw=true "Logo de Crearte")
+
+### 🖌️ Frameworks utilizados.
+Se ha utilizado TailwindCSS, ChakraUI y DaisyUI para estilar la plataforma.
+
+
+<div id='enla'/>
+
+## Enlaces
+
+[Cliente](https://github.com/andresdrew02/cliente_nextjs_tfgs/)
+
+[Servidor](https://github.com/andresdrew02/backend_strapi_tfgs)
+
+
+<div id='requi'/>
+
+## Requisitos
+Necesitas tener instalado NPM para poder desplegar la plataforma.
+
+Además, necesitas un SGBD y cambiar la configuración en el archivo *database.js* dentro de la carpeta *config* (Strapi)
+
+Una vez hecho esto, puedes ejecutar para instalar las dependencias de Node
+
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Para ejecutar el cliente en modo desarrollo
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+npm run dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Para ejecutar Strapi
+```
+npm strapi develop
+```
+**o**
+```
+yarn strapi develop
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<div id='credi'/>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Créditos
+Andrés Del Cerro, yo 😄
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
